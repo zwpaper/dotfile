@@ -9,7 +9,7 @@ export PATH="$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/golang
-export PATH=$HOME/.bin:$GOPATH/bin:$PATH
+export PATH=$HOME/.bin:$GOROOT/bin:$GOPATH/bin:$PATH
 
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
