@@ -1,0 +1,8 @@
+patch:
+    schema_list:
+        - schema: wubi86               #
+        - schema: luna_pinyin_simp     # 朙月拼音 简化字模式
+    ascii_composer:
+        switch_key:
+            Shift_L: noop
+            Shift_R: noop

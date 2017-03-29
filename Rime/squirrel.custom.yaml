@@ -1,0 +1,8 @@
+patch:
+    style/horizontal: true
+    style/font_point: 18
+    style/color_scheme: google
+    style/font_face: "Source Code Pro"
+
+    app_options:
+        ascii_mode: false
