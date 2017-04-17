@@ -1,10 +1,11 @@
-export HOME="/home/paper"
+export HOME="/Users/didi"
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="dst"
-plugins=(git, autojump, tmux)
+plugins=(git autojump tmux osx)
 
 # User configuration
+export LC_ALL="en_US.UTF-8"
 export PATH="$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 export GOROOT=/usr/local/go
@@ -19,10 +20,11 @@ export LSCOLORS=Gxfxcxdxbxegedabagacad
 
 source $ZSH/oh-my-zsh.sh
 
-
-alias ls='ls -h --color=auto'
-alias ll='ls -lh --color=auto'
-alias la='ls -ah --color=auto'
+if [ "$(uname 2> /dev/null)" = "Linux" ]; then
+   alias ls='ls -h --color=auto'
+   alias ll='ls -lh --color=auto'
+   alias la='ls -ah --color=auto'
+fi
 alias rm='rm -i'
 alias grep="grep --color=auto"
 alias -s gz='tar -xzvf'
