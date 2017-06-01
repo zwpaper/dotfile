@@ -1,14 +1,14 @@
-export HOME="/Users/didi"
+export HOME="/root/"
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="dst"
-plugins=(git autojump tmux osx)
+plugins=(git autojump tmux)
 
 # User configuration
 export LC_ALL="en_US.UTF-8"
 export PATH="$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
-export GOROOT=/usr/local/go
+export GOROOT=/usr/lib/golang
 export GOPATH=$HOME/golang
 export PATH=$HOME/.bin:$GOROOT/bin:$GOPATH/bin:$PATH
 
