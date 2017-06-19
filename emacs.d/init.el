@@ -39,6 +39,10 @@
 (add-to-list 'custom-theme-load-path
              "~/.emacs.d/theme/atom-one-dark-theme/")
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:background "black")))))
 (load-theme 'atom-one-dark t)
 
@@ -50,9 +54,42 @@
  '("melpa" . "http://melpa.org/packages/")
  t)
 (package-initialize)
-(ac-config-default)
+
+;; Guarantee all packages are installed on start
+(require 'cl)
+(defvar packages-list
+  '(ace-window
+    auto-complete
+    highlight-parentheses
+    magit
+    ggtags
+    ace-window
+    flycheck
+    go-eldoc
+    go-mode
+    helm
+    helm-projectile
+    yasnippet
+    )
+  "List of packages needs to be installed at launch.")
+
+(defun has-package-not-installed ()
+  (loop for p in packages-list
+        when (not (package-installed-p p)) do (return t)
+        finally (return nil)))
+(when (has-package-not-installed)
+  ;; Check for new packages (package versions)
+  (message "%s" "Get latest versions of all packages...")
+  (package-refresh-contents)
+  (message "%s" " done.")
+  ;; Install the missing packages
+  (dolist (p packages-list)
+    (when (not (package-installed-p p))
+      (package-install p))))
 
 ; Global
+(ac-config-default)
+
 ;; Helm
 (require 'helm)
 (require 'helm-config)
@@ -86,22 +123,22 @@
 (projectile-mode)
 (helm-projectile-on)
 
-;; sr speedbar
-(require 'sr-speedbar)
-(setq sr-speedbar-right-side nil)
-(setq sr-speedbar-width-console 20)
-(setq sr-speedbar-default-width 20)
-(setq sr-speedbar-max-width 20)
+;;; sr speedbar
+;(require 'sr-speedbar)
+;(setq sr-speedbar-right-side nil)
+;(setq sr-speedbar-width-console 20)
+;(setq sr-speedbar-default-width 20)
+;(setq sr-speedbar-max-width 20)
 ;(sr-speedbar-width-console 10)
 ; (sr-speedbar-max-width 10)
-(global-set-key (kbd "C-c l") 'sr-speedbar-toggle)
+;(global-set-key (kbd "C-c l") 'sr-speedbar-toggle)
 
 ;;YASnippet
 (require 'yasnippet)
 (setq ac-source-yasnippet nil)
-; (define-key yas-minor-mode-map (kbd "<tab>") nil)
-; (define-key yas-minor-mode-map (kbd "TAB") nil)
-(define-key yas-minor-mode-map (kbd "C-m") 'yas-expand)
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-i") 'yas-expand)
 (yas-global-mode 1)
 
 ;; Indent Guide
@@ -178,3 +215,11 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
