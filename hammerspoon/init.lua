@@ -14,48 +14,68 @@ hs.window.animationDuration = 0
 
 
 -- Keyboard Settting
----- general setting
-------- caps to ctrl and esc
-sendESC = true
-maxFlag = 0
-controlKeyTimer =
-hs.timer.delayed.new(0.15, function() sendESC = false end)
-
-controlHandler = function(evt)
-    local newMods = evt:getFlags()
-    local count = 0
-    for _ in pairs(newMods) do
-        count = count + 1
-    end
-    if maxFlag < count then maxFlag = count end
-    if  1 == maxFlag and newMods["ctrl"] then
-        sendESC = true
-        controlKeyTimer:start()
-        return true
-    end
-    if 0 == count then
-        if 1 == maxFlag and sendESC then
-            hs.eventtap.keyStroke({}, "ESCAPE", 5)
-            sendESC = false
-            maxFlag = 0
-            controlKeyTimer:stop()
-            return true
+---- karabiner-elements
+keyboardWatcher = nil
+deleteKarabinerCMD = "tell application \"Finder\" to delete \"/Users/didi/.config/karabiner/karabiner.json\" as POSIX file"
+copyKarabinerHHKBcmd = "do shell script \"cp /Users/didi/.config/karabiner/karabiner.json.hhkb /Users/didi/.config/karabiner/karabiner.json\""
+copyKarabinerPokerCMD = "do shell script \"cp /Users/didi/.config/karabiner/karabiner.json.poker /Users/didi/.config/karabiner/karabiner.json\""
+function keyboardCallback(data)
+    if (data["eventType"] == "added") then
+        if (data["productID"] == 256) then
+            hs.notify.show("hhkb inserted", "", "")
+            local deleteResult = hs.osascript.applescript(deleteKarabinerCMD)
+            local copyResult = hs.osascript.applescript(copyKarabinerHHKBcmd)
+            hs.notify.show("Load HHKB karabiner config",
+                           "delete old "..(deleteResult and "succ" or "fail"),
+                           "load "..(copyResult and "succ" or "fail"))
+        elseif (data["productID"] == 1553) then
+            hs.notify.show("poker inserted", "", "")
+            local deleteResult = hs.osascript.applescript(deleteKarabinerCMD)
+            local copyResult = hs.osascript.applescript(copyKarabinerPokerCMD)
+            hs.notify.show("Load Poker karabiner config",
+                           "delete old "..(deleteResult and "succ" or "fail"),
+                           "load "..(copyResult and "succ" or "fail"))
         end
-        sendESC = false
-        maxFlag = 0
+    elseif (data["productID"] == 256) or (data["productID"] == 1553) then
+            hs.notify.show("keyboar unplugged", "", "")
+            local deleteResult = hs.osascript.applescript(deleteKarabinerCMD)
+            local copyResult = hs.osascript.applescript(copyKarabinerHHKBcmd)
+            hs.notify.show("Load HHKB karabiner config",
+                           "delete old "..(deleteResult and "succ" or "fail"),
+                           "load "..(copyResult and "succ" or "fail"))
     end
-    return false
 end
-controlTap = hs.eventtap.new(
-    {hs.eventtap.event.types.flagsChanged}, controlHandler)
-controlTap:start()
--- end caps to ctrl and esc
+keyboardWatcher = hs.usb.watcher.new(keyboardCallback)
+keyboardWatcher:start()
 
--- space to space and option
+-- right option to chinese
+noInput = "com.apple.keylayout.US"
+squirrelInput = "com.googlecode.rimeime.inputmethod.Squirrel.Rime"
+hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "z",
+    function()
+        source = hs.keycodes.currentSourceID()
+        if source ~= squirrelInput then
+            if not hs.keycodes.currentSourceID(squirrelInput) then
+                hs.alert.show("Can not change input source to squirrel")
+            end
+        end
+end)
+
+-- right command to english
+hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "e",
+    function()
+        source = hs.keycodes.currentSourceID()
+        if source ~= noInput then
+            if not hs.keycodes.currentSourceID(noInput) then
+                hs.alert.show("Can not change input source to us")
+            end
+        end
+end)
+
 
 
 ---- poker
-poker = require('poker')
+-- poker = require('poker')
 
 
 -- testing
@@ -76,11 +96,11 @@ testTap = hs.eventtap.new(
     testHandler)
 -- testTap:start()
 
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W",
-    function()
-        test = hs.usb.attachedDevices()
-        for index, usbDevice in pairs(test) do
-            hs.alert.show("test")
-            hs.alert.show(usbDevice["productID"])
-        end
-end)
+-- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W",
+--     function()
+--         test = hs.usb.attachedDevices()
+--         for index, usbDevice in pairs(test) do
+--             hs.alert.show("test")
+--             hs.alert.show(usbDevice["productID"])
+--         end
+-- end)
