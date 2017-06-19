@@ -19,6 +19,7 @@ keyboardWatcher = nil
 deleteKarabinerCMD = "tell application \"Finder\" to delete \"/Users/didi/.config/karabiner/karabiner.json\" as POSIX file"
 copyKarabinerHHKBcmd = "do shell script \"cp /Users/didi/.config/karabiner/karabiner.json.hhkb /Users/didi/.config/karabiner/karabiner.json\""
 copyKarabinerPokerCMD = "do shell script \"cp /Users/didi/.config/karabiner/karabiner.json.poker /Users/didi/.config/karabiner/karabiner.json\""
+copyKarabinerMacCMD = "do shell script \"cp /Users/didi/.config/karabiner/karabiner.json.mac /Users/didi/.config/karabiner/karabiner.json\""
 function keyboardCallback(data)
     if (data["eventType"] == "added") then
         if (data["productID"] == 256) then
@@ -39,7 +40,7 @@ function keyboardCallback(data)
     elseif (data["productID"] == 256) or (data["productID"] == 1553) then
             hs.notify.show("keyboar unplugged", "", "")
             local deleteResult = hs.osascript.applescript(deleteKarabinerCMD)
-            local copyResult = hs.osascript.applescript(copyKarabinerHHKBcmd)
+            local copyResult = hs.osascript.applescript(copyKarabinerMacCMD)
             hs.notify.show("Load HHKB karabiner config",
                            "delete old "..(deleteResult and "succ" or "fail"),
                            "load "..(copyResult and "succ" or "fail"))
