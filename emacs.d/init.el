@@ -123,6 +123,15 @@
 (projectile-mode)
 (helm-projectile-on)
 
+;; magit
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+
+;; ediff
+(custom-set-variables
+ '(ediff-split-window-function (quote split-window-horizontally))
+)
+
 ;;; sr speedbar
 ;(require 'sr-speedbar)
 ;(setq sr-speedbar-right-side nil)
