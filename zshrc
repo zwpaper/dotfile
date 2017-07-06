@@ -2,7 +2,7 @@ export HOME="/root"
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="ys"
-plugins=(git z tmux)
+plugins=(git z tmux zsh-autosuggestions)
 ENABLE_CORRECTION="true"
 ZSH_TMUX_AUTOSTART="true"
 
