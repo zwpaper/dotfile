@@ -4,6 +4,7 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="ys"
 plugins=(git autojump tmux)
 ENABLE_CORRECTION="true"
+ZSH_TMUX_AUTOSTART="true"
 
 # User configuration
 export LC_ALL="en_US.UTF-8"
