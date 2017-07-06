@@ -1,7 +1,7 @@
 export HOME="/root"
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="dst"
+ZSH_THEME="ys"
 plugins=(git autojump tmux)
 ENABLE_CORRECTION="true"
 
