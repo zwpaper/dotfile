@@ -3,6 +3,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="dst"
 plugins=(git autojump tmux)
+ENABLE_CORRECTION="true"
 
 # User configuration
 export LC_ALL="en_US.UTF-8"
@@ -19,6 +20,18 @@ export TERM=xterm-256color
 export LSCOLORS=Gxfxcxdxbxegedabagacad
 
 source $ZSH/oh-my-zsh.sh
+export PROMPT="
+%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
+%(#,%{$fg[magenta]%}%n%{$reset_color%},%{$fg[cyan]%}%n) \
+%{$fg[white]%}@ \
+%{$fg[green]%}%m \
+%{$fg[white]%}in \
+%{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}\
+${hg_info}\
+${git_info}\
+ \
+%{$fg[white]%}[%*] $exit_code
+%{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
 
 if [ "$(uname 2> /dev/null)" = "Linux" ]; then
    alias ls='ls -h --color=auto'
