@@ -145,9 +145,9 @@
 ;;YASnippet
 (require 'yasnippet)
 (setq ac-source-yasnippet nil)
-(define-key yas-minor-mode-map (kbd "<tab>") nil)
-(define-key yas-minor-mode-map (kbd "TAB") nil)
-(define-key yas-minor-mode-map (kbd "C-i") 'yas-expand)
+;; (define-key yas-minor-mode-map (kbd "<tab>") nil)
+;; (define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-o") 'yas-expand)
 (yas-global-mode 1)
 
 ;; Indent Guide
