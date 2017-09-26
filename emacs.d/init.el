@@ -4,6 +4,7 @@
 (setq-default tab-width 4)
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'load-path "~/.emacs.d/plugin")
+(add-to-list 'load-path "~/fp")
 (menu-bar-mode -1)
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
@@ -70,6 +71,7 @@
     helm
     helm-projectile
     yasnippet
+    go-add-tags
     )
   "List of packages needs to be installed at launch.")
 
@@ -129,8 +131,14 @@
 
 ;; ediff
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ediff-split-window-function (quote split-window-horizontally))
-)
+ '(package-selected-packages
+   (quote
+    (abyss-theme magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
 
 ;;; sr speedbar
 ;(require 'sr-speedbar)
@@ -189,6 +197,7 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (defun my-flycheck-c-setup ()
   (setq flycheck-clang-language-standard "gnu99"))
+(setq flycheck-emacs-lisp-load-path 'inherit)
 (add-hook 'c-mode-hook #'my-flycheck-c-setup)
 
 ;; C
@@ -224,11 +233,3 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
