@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.obfs</string>
+    <key>Program</key>
+    <string>/usr/local/bin/obfs-local</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>obfs-local</string>
+        <string>-s</string>
+        <string>182.161.33.60</string>
+        <string>-p</string>
+        <string>8111</string>
+        <string>-l</string>
+        <string>1984</string>
+        <string>--obfs</string>
+        <string>http</string>
+        <string>--obfs-host</string>
+        <string>www.bing.com</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardErrorPath</key>
+    <string>/tmp/obfs.stderr</string>
+    <key>StandardOutPath</key>
+    <string>/tmp/obfs.stdout</string>
+</dict>
+</plist>
