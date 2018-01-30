@@ -127,11 +127,6 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
-;; ediff
-(custom-set-variables
- '(ediff-split-window-function (quote split-window-horizontally))
-)
-
 ;;; sr speedbar
 ;(require 'sr-speedbar)
 ;(setq sr-speedbar-right-side nil)
@@ -191,6 +186,9 @@
   (setq flycheck-clang-language-standard "gnu99"))
 (add-hook 'c-mode-hook #'my-flycheck-c-setup)
 
+;; C++
+(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
+
 ;; C
 (defun my-flycheck-c-setup ()
   (setq flycheck-clang-language-standard "gnu99"))
@@ -200,7 +198,6 @@
 (global-set-key (kbd "C-c C-t") 'gdb)
 
 ; Go
-
 (defun my-go-mode-hook ()
   (add-hook 'before-save-hook 'gofmt-before-save)
   (if (not (string-match "go" compile-command))
@@ -217,6 +214,19 @@
 (require 'auto-complete-config)
 (add-hook 'go-mode-hook 'go-eldoc-setup)
 
+;; python
+(setq
+ python-shell-interpreter "ipython"
+ python-shell-interpreter-args "--colors=Linux --profile=default --simple-prompt -i"
+ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+ python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+ python-shell-completion-setup-code
+ "from IPython.core.completerlib import module_completion"
+ python-shell-completion-module-string-code
+ "';'.join(module_completion('''%s'''))\n"
+ python-shell-completion-string-code
+ "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
 (require 'ansi-color)
@@ -224,11 +234,14 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; ediff
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ediff-split-window-function (quote split-window-horizontally))
  '(package-selected-packages
    (quote
-    (magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
+    (go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
