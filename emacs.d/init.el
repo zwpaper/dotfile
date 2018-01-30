@@ -4,6 +4,7 @@
 (setq-default tab-width 4)
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'load-path "~/.emacs.d/plugin")
+(add-to-list 'load-path "~/fp")
 (menu-bar-mode -1)
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
@@ -70,6 +71,7 @@
     helm
     helm-projectile
     yasnippet
+    go-add-tags
     )
   "List of packages needs to be installed at launch.")
 
@@ -184,6 +186,7 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (defun my-flycheck-c-setup ()
   (setq flycheck-clang-language-standard "gnu99"))
+(setq flycheck-emacs-lisp-load-path 'inherit)
 (add-hook 'c-mode-hook #'my-flycheck-c-setup)
 
 ;; C++
