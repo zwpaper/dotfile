@@ -77,6 +77,37 @@
                                 "type": "basic"
                             },
                             {
+                                "description": "change option to clipboard history and option.",
+                                "from": {
+                                    "key_code": "left_option",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_option",
+                                        "modifiers": [
+                                            "any"
+                                        ]
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "9",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_option",
+                                            "left_control",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
                                 "description": "Change spacebar to option.",
                                 "from": {
                                     "key_code": "spacebar",
