@@ -51,13 +51,13 @@ keyboardWatcher:start()
 
 -- right option to chinese
 noInput = "com.apple.keylayout.US"
-squirrelInput = "com.googlecode.rimeime.inputmethod.Squirrel.Rime"
+qinggeInput = "com.aodaren.inputmethod.Qingg"
 hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "z",
     function()
         source = hs.keycodes.currentSourceID()
-        if source ~= squirrelInput then
-            if not hs.keycodes.currentSourceID(squirrelInput) then
-                hs.alert.show("Can not change input source to squirrel")
+        if source ~= qinggeInput then
+            if not hs.keycodes.currentSourceID(qinggeInput) then
+                hs.alert.show("Can not change input source to qingge")
             end
         end
 end)
@@ -66,6 +66,7 @@ end)
 hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "e",
     function()
         source = hs.keycodes.currentSourceID()
+--        hs.alert.show(source)
         if source ~= noInput then
             if not hs.keycodes.currentSourceID(noInput) then
                 hs.alert.show("Can not change input source to us")
