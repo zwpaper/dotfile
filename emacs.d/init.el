@@ -39,6 +39,25 @@
 (global-set-key (kbd "C-M-]") 'avy-goto-char)
 (global-set-key (kbd "C-M-[") 'avy-goto-char-2)
 
+;; eshell
+(add-hook 'eshell-mode-hook #'esh-autosuggest-mode)
+(add-hook 'eshell-mode-hook 'eshell-fringe-status-mode)
+(add-hook 'eshell-mode-hook
+          (defun my-eshell-mode-hook ()
+            (require 'eshell-z)))
+
+; (with-eval-after-load "esh-opt"
+;   (autoload 'epe-theme-dakrone "eshell-prompt-extras")
+;   (setq eshell-highlight-prompt nil
+;         eshell-prompt-function 'epe-theme-dakrone))
+(with-eval-after-load "esh-opt"
+   (require 'virtualenvwrapper)
+   (venv-initialize-eshell)
+  (autoload 'epe-theme-dakrone "eshell-prompt-extras")
+  (setq eshell-highlight-prompt nil
+        eshell-prompt-function 'epe-theme-dakrone))
+
+
 ;; Theme
 (add-to-list 'custom-theme-load-path
              "~/.emacs.d/theme/atom-one-dark-theme/")
@@ -62,22 +81,37 @@
 ;; Guarantee all packages are installed on start
 (require 'cl)
 (defvar packages-list
-  '(ace-window
+  '(
+    ; Emacs settings
+    neotree
+    all-the-icons
+    ; Run manually
+    ; M-x all-the-icons-install-fonts
+    ace-window
+    helm
+    helm-projectile
+    virtualenvwrapper
+    eshell-z
+    esh-autosuggest
+    eshell-fringe-status
+    eshell-prompt-extras
+    exec-path-from-shell
+    ; General Programming
     auto-complete
     highlight-parentheses
-    magit
     ggtags
-    ace-window
     flycheck
+    yasnippet
+    ; Git
+    magit
+    ; Go
     go-eldoc
     go-mode
     go-add-tags
-    helm
-    helm-projectile
-    yasnippet
-    go-add-tags
+    ; Haskell
     haskell-mode
     intero
+    ; Python
     )
   "List of packages needs to be installed at launch.")
 
@@ -97,6 +131,9 @@
 
 ; Global
 (ac-config-default)
+(setq inhibit-compacting-font-caches t)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(exec-path-from-shell-initialize)
 
 ;; Helm
 (require 'helm)
@@ -215,11 +252,7 @@
 (setq indent-guide-recursive t)
 
 ;; Show line numbers
-(defun linum-format-func (line)
-  (let ((w (length (number-to-string (count-lines (point-min) (point-max))))))
-    (propertize (format (format "%%%dd " w) line) 'face 'linum)))
-(setq linum-format 'linum-format-func)
-(add-hook 'find-file-hooks (lambda()(linum-mode 1)))
+(add-hook 'find-file-hooks (lambda()(display-line-numbers-mode 1)))
 
 ;; gnu global
 (add-to-list 'load-path "~/.emacs.d/plugin/ggtags")
@@ -276,6 +309,8 @@
 (require 'go-autocomplete)
 (require 'auto-complete-config)
 (add-hook 'go-mode-hook 'go-eldoc-setup)
+(add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/golang/lint/misc/emacs"))
+(require 'golint)
 
 ;; python
 (setq
@@ -307,4 +342,4 @@
  '(ediff-split-window-function (quote split-window-horizontally))
  '(package-selected-packages
    (quote
-    (flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
+    (exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
