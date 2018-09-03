@@ -1,8 +1,20 @@
-export HOME="/root"
+# OS Specific
+case `uname` in
+  Darwin)
+    export HOME="/Users/paper"
+  ;;
+  Linux)
+    export HOME="/root"
+  ;;
+  FreeBSD)
+    # commands for FreeBSD go here
+  ;;
+esac
+
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="ys"
-plugins=(git z tmux zsh-autosuggestions)
+ZSH_THEME="dst"
+plugins=(git z zsh-autosuggestions)
 ENABLE_CORRECTION="true"
 ZSH_TMUX_AUTOSTART="true"
 
@@ -10,7 +22,7 @@ ZSH_TMUX_AUTOSTART="true"
 export LC_ALL="en_US.UTF-8"
 export PATH="$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
-export GOROOT=/usr/lib/golang
+export GOROOT=/usr/local/go
 export GOPATH=$HOME/golang
 export PATH=$HOME/.bin:$GOROOT/bin:$GOPATH/bin:$PATH
 
