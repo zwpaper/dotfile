@@ -2,6 +2,7 @@
 case `uname` in
   Darwin)
     export HOME="/Users/paper"
+    export PATH="/usr/local/opt/ncurses/bin:$PATH"
   ;;
   Linux)
     export HOME="/root"
