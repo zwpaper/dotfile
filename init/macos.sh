@@ -9,10 +9,36 @@ dotPath=$repoPath"/"$dotRepo
 dotRepoGit="git@github.com:zwpaper/dotfile.git"
 
 ## Application list
+## Mac App Store
+masApps="
+bear
+reeder
+spark
+mweb
+xnip
+airmail
+"
+## Homebrew Cask
 caskApps="
+alfred
 omnifocus
-iterm2
 karabiner-elements
+hammerspoon
+istat-menus
+quitter
+bettertouchtool
+unlox
+dropbox
+google-chrome
+1password
+qingg
+iterm2
+visual-studio-code
+postman
+docker
+slack
+wechat
+neteasemusic
 "
 
 # Mac tools
