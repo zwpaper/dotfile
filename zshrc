@@ -1,11 +1,15 @@
 # OS Specific
 case `uname` in
   Darwin)
-    export HOME="/Users/paper"
+    export HOME="/Users/zhangwei"
     export PATH="/usr/local/opt/ncurses/bin:$PATH"
+    export GOROOT="/usr/local/opt/go/libexec/"
+    export GOPATH=$HOME"/code/golang"
   ;;
   Linux)
     export HOME="/root"
+    export GOROOT=/usr/local/go
+    export GOPATH=$HOME/golang
   ;;
   FreeBSD)
     # commands for FreeBSD go here
@@ -23,9 +27,7 @@ ZSH_TMUX_AUTOSTART="true"
 export LC_ALL="en_US.UTF-8"
 export PATH="$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/golang
-export PATH=$HOME/.bin:$GOROOT/bin:$GOPATH/bin:$PATH
+export PATH=$HOME/.bin:/usr/local/bin/:$GOROOT/bin:$GOPATH/bin:$PATH
 
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
