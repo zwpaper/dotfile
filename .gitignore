@@ -1,5 +1,11 @@
 # elpa
 emacs.d/elpa
+# emacs gen file
+emacs.d/ac-comphist.dat
+emacs.d/projectile-bookmarks.eld
+emacs.d/recentf
+emacs.d/eshell/
+emacs.d/pyim/
 
 # tmp file
 .DS_Store
