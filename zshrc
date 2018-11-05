@@ -74,6 +74,7 @@ alias gif='git diff'
 alias gad='git add'
 alias grm='git rm'
 alias glo='git log'
+alias glg='git log --all --decorate --oneline --graph'
 alias gcm='git commit -m'
 
 alias gre='git remote'
