@@ -82,3 +82,8 @@ alias grv='git remote -v'
 
 # Function alias
 cdmk() { mkdir $@ && cd $_ ;}
+
+# work script
+if [ -f ~/.zsh.work ]; then
+    source ~/.zsh.work
+fi
