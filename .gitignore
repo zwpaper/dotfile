@@ -1,6 +1,7 @@
 # elpa
 emacs.d/elpa
 
-# mac os
+# tmp file
 .DS_Store
+*~
 zshrc.mac
