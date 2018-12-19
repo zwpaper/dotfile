@@ -1,19 +1,19 @@
 # OS Specific
 case `uname` in
-  Darwin)
-    export HOME="/Users/zhangwei"
-    export PATH="/usr/local/opt/ncurses/bin:$PATH"
-    export GOROOT="/usr/local/opt/go/libexec/"
-    export GOPATH=$HOME"/code/golang"
-  ;;
-  Linux)
-    export HOME="/root"
-    export GOROOT=/usr/local/go
-    export GOPATH=$HOME/golang
-  ;;
-  FreeBSD)
-    # commands for FreeBSD go here
-  ;;
+    Darwin)
+        export HOME="/Users/zhangwei"
+        export PATH="/usr/local/opt/ncurses/bin:$PATH"
+        export GOROOT="/usr/local/opt/go/libexec/"
+        export GOPATH=$HOME"/code/golang"
+        ;;
+    Linux)
+        export HOME="/root"
+        export GOROOT=/usr/local/go
+        export GOPATH=$HOME/golang
+        ;;
+    FreeBSD)
+        # commands for FreeBSD go here
+        ;;
 esac
 
 export ZSH=$HOME/.oh-my-zsh
@@ -79,6 +79,20 @@ alias gcm='git commit -m'
 
 alias gre='git remote'
 alias grv='git remote -v'
+
+# Better tool than default
+## OS Specific
+case `uname` in
+    Darwin)
+    alias cat="bat"
+    alias ls="exa"
+        ;;
+    Linux)
+        ;;
+    FreeBSD)
+        # commands for FreeBSD go here
+        ;;
+esac
 
 # Function alias
 cdmk() { mkdir $@ && cd $_ ;}
