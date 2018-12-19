@@ -37,6 +37,7 @@ docker
 slack
 wechat
 neteasemusic
+font-source-code-pro
 "
 ## Homebrew Apps
 brewApps="
@@ -44,6 +45,12 @@ zsh
 emacs
 golang
 global
+bat
+exa
+"
+## GNU Apps, should install with default name
+gnuApps="
+gnu-sed
 "
 
 # Mac tools
@@ -51,11 +58,15 @@ which brew
 result=`echo $?`
 if [ X$result == X1 ]; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew tap caskroom/fonts
 fi
 
 export HOMEBREW_NO_AUTO_UPDATE=1
 for i in $brewApps; do
     brew install $i
+done
+for i in $gnuApps; do
+    brew install $i --with-default-names
 done
 for i in $caskApps; do
     brew cask install $i
