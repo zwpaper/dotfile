@@ -1,4 +1,19 @@
 
+; macOS
+;; (menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(tool-bar-mode -1)
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark)) ;; assuming you are using a dark theme
+(setq ns-use-proxy-icon nil)
+(setq frame-title-format nil)
+;; Set default font
+(set-face-attribute 'default nil
+                    :family "Source Code Pro"
+                    :height 130
+                    :weight 'normal
+                    :width 'normal)
+
 ; Vars
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -13,6 +28,29 @@
 ; Global Settings:
 ;; Key bindings
 (global-set-key (kbd "M-m") 'goto-line)
+;; scroll one line only when past the bottom of screen
+(setq scroll-conservatively 1)
+(global-set-key (kbd "M-n") 'scroll-up-line)
+(global-set-key (kbd "M-p") 'scroll-down-line)
+
+;; clipboard
+(defun paste-from-osx ()
+  "Paste using macOS clipboard."
+  (interactive)
+  (shell-command-to-string "pbpaste"))
+
+(defun copy-to-osx (text &optional push)
+  "Copy Emacs content to macOS.
+TEXT: selected region
+PUSH: push to macOS"
+  (interactive)
+  (let ((process-connection-type nil))
+    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+      (process-send-string proc text)
+      (process-send-eof proc))))
+(global-set-key (kbd "C-c C-y") 'paste-from-osx)
+(global-set-key (kbd "C-c C-w") 'copy-to-osx)
+
 
 ;; Whitespace
 (require 'whitespace)
@@ -21,6 +59,12 @@
 
 ;; Del trailing space
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; multiple cursors
+(global-set-key (kbd "C-c C-l") 'mc/edit-lines)
+(global-set-key (kbd "C-c C-n") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-c C-p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-a") 'mc/mark-all-like-this)
 
 ;; Move backup file to dot folder
 ;;; Don't clutter up directories with files~
@@ -59,14 +103,6 @@
 
 
 ;; Theme
-(add-to-list 'custom-theme-load-path
-             "~/.emacs.d/theme/atom-one-dark-theme/")
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:background "black")))))
 (load-theme 'atom-one-dark t)
 
 
@@ -76,6 +112,11 @@
  'package-archives
  '("melpa" . "http://melpa.org/packages/")
  t)
+(setq url-proxy-services
+ '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+   ("http" . "127.0.0.1:1087")
+   ("https" . "127.0.0.1:1087"))
+)
 (package-initialize)
 
 ;; Guarantee all packages are installed on start
@@ -137,6 +178,18 @@
 (setq inhibit-compacting-font-caches t)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 (exec-path-from-shell-initialize)
+(exec-path-from-shell-copy-env "PATH")
+(exec-path-from-shell-copy-env "GOPATH")
+(exec-path-from-shell-copy-env "GOROOT")
+
+;; Markdown
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 ;; Pyim
 (require 'pyim)
@@ -285,6 +338,8 @@
 ;(global-set-key (kbd "C-c l") 'sr-speedbar-toggle)
 
 ;;YASnippet
+(add-to-list 'load-path
+              "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
 (setq ac-source-yasnippet nil)
 ;; (define-key yas-minor-mode-map (kbd "<tab>") nil)
@@ -342,26 +397,35 @@
 (global-set-key (kbd "C-c C-t") 'gdb)
 
 ; Go
+(setq gofmt-command "goimports")
 (defun my-go-mode-hook ()
+  "Auto format and import on save."
   (add-hook 'before-save-hook 'gofmt-before-save)
+;  (add-hook 'before-save-hook 'lsp-format-buffer)
   (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
            "go generate && go build -v && go test -v && go vet"))
   (local-set-key (kbd "M-.") 'godef-jump))
 (add-hook 'go-mode-hook 'my-go-mode-hook)
-(setq gofmt-command "goimports")
-(add-to-list 'load-path "~/.emacs.d/elpa/go-mode-20160715.1705")
-(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-20150618.1949/")
-(add-to-list 'load-path "~/.emacs.d/elpa/popup-20150626.711/")
-(require 'go-mode-load)
-(require 'go-autocomplete)
-(require 'auto-complete-config)
-(add-hook 'go-mode-hook 'go-eldoc-setup)
+(add-hook 'go-mode-hook #'yas-minor-mode)
+; (add-to-list 'load-path "~/.emacs.d/elpa/go-mode-20160715.1705")
+; (add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-20150618.1949/")
+; (add-to-list 'load-path "~/.emacs.d/elpa/popup-20150626.711/")
+; (require 'go-mode-load)
+; (require 'go-autocomplete)
+; (require 'auto-complete-config)
+; (add-hook 'go-mode-hook 'go-eldoc-setup)
 (add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/golang/lint/misc/emacs"))
-(require 'golint)
+; (require 'golint)
+(require 'lsp)
+;; in case you are using client which is available as part of lsp refer to the
+;; table bellow for the clients that are distributed as part of lsp-mode.el
+(require 'lsp-clients)
+(add-hook 'go-mode-hook 'lsp)
+(require 'company-lsp)
+(push 'company-lsp company-backends)
 
 ;; python
-(define-coding-system-alias 'UTF-8 'utf-8)
 (setq
  python-shell-interpreter "ipython"
  python-shell-interpreter-args "--colors=Linux --profile=default --simple-prompt -i"
@@ -374,6 +438,7 @@
  python-shell-completion-string-code
  "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 
+(define-coding-system-alias 'UTF-8 'utf-8)
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
 (require 'ansi-color)
@@ -381,6 +446,7 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(setq elpy-rpc-python-command "python3")
 
 ;; ediff
 (custom-set-variables
@@ -388,7 +454,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("adf5275cc3264f0a938d97ded007c82913906fc6cd64458eaae6853f6be287ce" default)))
  '(ediff-split-window-function (quote split-window-horizontally))
+ '(fci-rule-color "#3E4451")
  '(package-selected-packages
    (quote
-    (pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
+    (atom-one-dark-theme yasnippet-snippets go-snippets company-lsp lsp-mode go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
