@@ -1,4 +1,18 @@
 
+; Package install
+(require 'package)
+(add-to-list
+ 'package-archives
+ '("melpa" . "http://melpa.org/packages/")
+ t)
+(setq url-proxy-services
+ '(("no_proxy" . "^\\(localhost\\|10.*\\)")
+   ("http" . "127.0.0.1:1087")
+   ("https" . "127.0.0.1:1087"))
+)
+(package-initialize)
+
+
 ; macOS
 ;; (menu-bar-mode -1)
 (toggle-scroll-bar -1)
@@ -8,11 +22,22 @@
 (setq ns-use-proxy-icon nil)
 (setq frame-title-format nil)
 ;; Set default font
+;;; 如果配置好，这24个汉字与下面个48英文字母应该等长
+;;; here are 24 chinese and 48 english chars, ended.
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
-                    :height 130
+                    :height 140
                     :weight 'normal
                     :width 'normal)
+(set-fontset-font t 'han      (font-spec
+                               :family "PingFang SC"
+                               :size 16
+                               ))
+(set-fontset-font t 'cjk-misc (font-spec
+                               :family "PingFang SC"
+                               :size 16
+                               ))
+;; (setq face-font-rescale-alist '(("PingFang SC" . 1.0)))
 
 ; Vars
 (setq-default indent-tabs-mode nil)
@@ -32,6 +57,29 @@
 (setq scroll-conservatively 1)
 (global-set-key (kbd "M-n") 'scroll-up-line)
 (global-set-key (kbd "M-p") 'scroll-down-line)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(setq ibuffer-saved-filter-groups
+      '(("home"
+	     ("emacs-config" (or (filename . ".emacs.d")
+			                 (filename . "emacs-config")))
+	     ("eshells" (or (name . "\.esh")
+			            (name . "*eshell*")))
+	     ("Org" (or (mode . org-mode)
+		            (filename . "OrgMode")))
+	     ("Golang Dev" (or (mode . go-mode)))
+	     ("Magit" (name . "\*magit"))
+	     ("Help" (or (name . "\*Help\*")
+		             (name . "\*Apropos\*")
+		             (name . "\*info\*"))))))
+(add-hook 'ibuffer-mode-hook
+	  '(lambda ()
+	     (ibuffer-switch-to-saved-filter-groups "home")))
+(setq ibuffer-expert t)
+(setq ibuffer-show-empty-filter-groups nil)
+
+; (require 'tramp)
+; (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 ;; clipboard
 (defun paste-from-osx ()
@@ -101,24 +149,6 @@ PUSH: push to macOS"
   (setq eshell-highlight-prompt nil
         eshell-prompt-function 'epe-theme-dakrone))
 
-
-;; Theme
-(load-theme 'atom-one-dark t)
-
-
-; Package install
-(require 'package)
-(add-to-list
- 'package-archives
- '("melpa" . "http://melpa.org/packages/")
- t)
-(setq url-proxy-services
- '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-   ("http" . "127.0.0.1:1087")
-   ("https" . "127.0.0.1:1087"))
-)
-(package-initialize)
-
 ;; Guarantee all packages are installed on start
 (require 'cl)
 (defvar packages-list
@@ -174,6 +204,9 @@ PUSH: push to macOS"
       (package-install p))))
 
 ; Global
+;; Theme
+(load-theme 'atom-one-dark t)
+
 (ac-config-default)
 (setq inhibit-compacting-font-caches t)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -385,6 +418,17 @@ PUSH: push to macOS"
 (setq flycheck-emacs-lisp-load-path 'inherit)
 (add-hook 'c-mode-hook #'my-flycheck-c-setup)
 
+;; org mode
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+; (setq org-latex-compiler "xelatex")
+; (setq org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
+; (setq-default TeX-engine 'xetex)
+; (setq-default TeX-PDF-mode t)
+
 ;; C++
 (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
 
@@ -415,15 +459,14 @@ PUSH: push to macOS"
 ; (require 'go-autocomplete)
 ; (require 'auto-complete-config)
 ; (add-hook 'go-mode-hook 'go-eldoc-setup)
-(add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/golang/lint/misc/emacs"))
+; (add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/golang/lint/misc/emacs"))
 ; (require 'golint)
-(require 'lsp)
-;; in case you are using client which is available as part of lsp refer to the
-;; table bellow for the clients that are distributed as part of lsp-mode.el
 (require 'lsp-clients)
-(add-hook 'go-mode-hook 'lsp)
 (require 'company-lsp)
 (push 'company-lsp company-backends)
+(require 'lsp-mode)
+; (setq lsp-prefer-flymake nil)
+(add-hook 'go-mode-hook 'lsp)
 
 ;; python
 (setq
@@ -459,6 +502,13 @@ PUSH: push to macOS"
     ("adf5275cc3264f0a938d97ded007c82913906fc6cd64458eaae6853f6be287ce" default)))
  '(ediff-split-window-function (quote split-window-horizontally))
  '(fci-rule-color "#3E4451")
+ '(lsp-ui-sideline-show-hover t)
  '(package-selected-packages
    (quote
-    (atom-one-dark-theme yasnippet-snippets go-snippets company-lsp lsp-mode go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
+    (lsp-go lsp-ui buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets company-lsp lsp-mode go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
