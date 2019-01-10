@@ -1,18 +1,21 @@
 
-(server-start)
+
 
 ; Package install
 (require 'package)
 (setq package-archives
-      '(("melpa" . "https://melpa.org/packages/")
-        ("gnu" . "https://elpa.gnu.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")))
-(setq url-proxy-services
- '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-   ("http" . "127.0.0.1:1087")
-   ("https" . "127.0.0.1:1087"))
-)
+      '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+        ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+        ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 (package-initialize)
+
+;;; use package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+(setq use-package-always-ensure t)
 
 ;; Guarantee all packages are installed on start
 ;; Common Lisp Emulation
@@ -20,6 +23,7 @@
 (defvar packages-list
   '(
 ;;; Emacs settings
+    atom-one-dark-theme
     neotree
     all-the-icons
     use-package
@@ -71,13 +75,6 @@
     (when (not (package-installed-p p))
       (package-install p))))
 
-;;; use package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
-(setq use-package-always-ensure t)
 
 ;;; Bookmarks
 (setq bookmark-save-flag 1) ; everytime bookmark is changed, automatically save it
@@ -367,6 +364,8 @@
   :ensure nil)
 (use-package init-languages
   :ensure nil)
+
+(server-start)
 
 ;;(use-package yequake)
 ;;  :custom
