@@ -1,10 +1,12 @@
 
+(server-start)
+
 ; Package install
 (require 'package)
-(add-to-list
- 'package-archives
- '("melpa" . "http://melpa.org/packages/")
- t)
+(setq package-archives
+      '(("melpa" . "https://melpa.org/packages/")
+        ("gnu" . "https://elpa.gnu.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
 (setq url-proxy-services
  '(("no_proxy" . "^\\(localhost\\|10.*\\)")
    ("http" . "127.0.0.1:1087")
@@ -12,6 +14,73 @@
 )
 (package-initialize)
 
+;; Guarantee all packages are installed on start
+;; Common Lisp Emulation
+(require 'cl)
+(defvar packages-list
+  '(
+;;; Emacs settings
+    neotree
+    all-the-icons
+    use-package
+    pyim
+    pyim-wbdict
+    ; Run manually
+    ; M-x all-the-icons-install-fonts
+    ace-window
+    helm
+    helm-projectile
+    virtualenvwrapper
+    eshell-z
+    esh-autosuggest
+    eshell-fringe-status
+    eshell-prompt-extras
+    exec-path-from-shell
+;;; org mode
+    ox-gfm
+;;; General Programming
+    ; auto-complete
+    highlight-parentheses
+    ggtags
+    flycheck
+    yasnippet
+;;; Git
+    magit
+;;; Go
+    go-eldoc
+    go-mode
+    go-add-tags
+;;; Haskell
+    haskell-mode
+    intero
+;;; Python
+    )
+  "List of packages needs to be installed at launch.")
+
+(defun has-package-not-installed ()
+  (loop for p in packages-list
+        when (not (package-installed-p p)) do (return t)
+        finally (return nil)))
+(when (has-package-not-installed)
+  ;; Check for new packages (package versions)
+  (message "%s" "Get latest versions of all packages...")
+  (package-refresh-contents)
+  (message "%s" " done.")
+  ;; Install the missing packages
+  (dolist (p packages-list)
+    (when (not (package-installed-p p))
+      (package-install p))))
+
+;;; use package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+(setq use-package-always-ensure t)
+
+;;; Bookmarks
+(setq bookmark-save-flag 1) ; everytime bookmark is changed, automatically save it
 
 ; macOS
 ;; (menu-bar-mode -1)
@@ -45,6 +114,8 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'load-path "~/.emacs.d/plugin")
 (add-to-list 'load-path "~/fp")
+(add-to-list 'load-path "~/.emacs.d/config")
+
 (menu-bar-mode -1)
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
@@ -78,27 +149,8 @@
 (setq ibuffer-expert t)
 (setq ibuffer-show-empty-filter-groups nil)
 
-; (require 'tramp)
-; (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-
-;; clipboard
-(defun paste-from-osx ()
-  "Paste using macOS clipboard."
-  (interactive)
-  (shell-command-to-string "pbpaste"))
-
-(defun copy-to-osx (text &optional push)
-  "Copy Emacs content to macOS.
-TEXT: selected region
-PUSH: push to macOS"
-  (interactive)
-  (let ((process-connection-type nil))
-    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-      (process-send-string proc text)
-      (process-send-eof proc))))
-(global-set-key (kbd "C-c C-y") 'paste-from-osx)
-(global-set-key (kbd "C-c C-w") 'copy-to-osx)
-
+;; (require 'tramp)
+;; (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 ;; Whitespace
 (require 'whitespace)
@@ -149,80 +201,18 @@ PUSH: push to macOS"
   (setq eshell-highlight-prompt nil
         eshell-prompt-function 'epe-theme-dakrone))
 
-;; Guarantee all packages are installed on start
-(require 'cl)
-(defvar packages-list
-  '(
-    ; Emacs settings
-    neotree
-    all-the-icons
-    use-package
-    pyim
-    pyim-wbdict
-    ; Run manually
-    ; M-x all-the-icons-install-fonts
-    ace-window
-    helm
-    helm-projectile
-    virtualenvwrapper
-    eshell-z
-    esh-autosuggest
-    eshell-fringe-status
-    eshell-prompt-extras
-    exec-path-from-shell
-    ; General Programming
-    auto-complete
-    highlight-parentheses
-    ggtags
-    flycheck
-    yasnippet
-    ; Git
-    magit
-    ; Go
-    go-eldoc
-    go-mode
-    go-add-tags
-    ; Haskell
-    haskell-mode
-    intero
-    ; Python
-    )
-  "List of packages needs to be installed at launch.")
-
-(defun has-package-not-installed ()
-  (loop for p in packages-list
-        when (not (package-installed-p p)) do (return t)
-        finally (return nil)))
-(when (has-package-not-installed)
-  ;; Check for new packages (package versions)
-  (message "%s" "Get latest versions of all packages...")
-  (package-refresh-contents)
-  (message "%s" " done.")
-  ;; Install the missing packages
-  (dolist (p packages-list)
-    (when (not (package-installed-p p))
-      (package-install p))))
 
 ; Global
 ;; Theme
 (load-theme 'atom-one-dark t)
 
-(ac-config-default)
 (setq inhibit-compacting-font-caches t)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
 (exec-path-from-shell-initialize)
 (exec-path-from-shell-copy-env "PATH")
 (exec-path-from-shell-copy-env "GOPATH")
 (exec-path-from-shell-copy-env "GOROOT")
-
-;; Markdown
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
 
 ;; Pyim
 (require 'pyim)
@@ -303,58 +293,7 @@ PUSH: push to macOS"
 (helm-projectile-on)
 
 ;; eshell
-(defun ac-pcomplete ()
-  ;; eshell uses `insert-and-inherit' to insert a \t if no completion
-  ;; can be found, but this must not happen as auto-complete source
-  (flet ((insert-and-inherit (&rest args)))
-    ;; this code is stolen from `pcomplete' in pcomplete.el
-    (let* (tramp-mode ;; do not automatically complete remote stuff
-           (pcomplete-stub)
-           (pcomplete-show-list t) ;; inhibit patterns like * being deleted
-           pcomplete-seen pcomplete-norm-func
-           pcomplete-args pcomplete-last pcomplete-index
-           (pcomplete-autolist pcomplete-autolist)
-           (pcomplete-suffix-list pcomplete-suffix-list)
-           (candidates (pcomplete-completions))
-           (beg (pcomplete-begin))
-           ;; note, buffer text and completion argument may be
-           ;; different because the buffer text may bet transformed
-           ;; before being completed (e.g. variables like $HOME may be
-           ;; expanded)
-           (buftext (buffer-substring beg (point)))
-           (arg (nth pcomplete-index pcomplete-args)))
-      ;; we auto-complete only if the stub is non-empty and matches
-      ;; the end of the buffer text
-      (when (and (not (zerop (length pcomplete-stub)))
-                 (or (string= pcomplete-stub ; Emacs 23
-                              (substring buftext
-                                         (max 0
-                                              (- (length buftext)
-                                                 (length pcomplete-stub)))))
-                     (string= pcomplete-stub ; Emacs 24
-                              (substring arg
-                                         (max 0
-                                              (- (length arg)
-                                                 (length pcomplete-stub)))))))
-        ;; Collect all possible completions for the stub. Note that
-        ;; `candidates` may be a function, that's why we use
-        ;; `all-completions`.
-        (let* ((cnds (all-completions pcomplete-stub candidates))
-               (bnds (completion-boundaries pcomplete-stub
-                                            candidates
-                                            nil
-                                            ""))
-               (skip (- (length pcomplete-stub) (car bnds))))
-          ;; We replace the stub at the beginning of each candidate by
-          ;; the real buffer content.
-          (mapcar #'(lambda (cand) (concat buftext (substring cand skip)))
-                  cnds))))))
-
-(defvar ac-source-pcomplete
-  '((candidates . ac-pcomplete)))
-
 (add-hook 'eshell-mode-hook #'(lambda () (setq ac-sources '(ac-source-pcomplete))))
-(add-to-list 'ac-modes 'eshell-mode)
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -412,84 +351,40 @@ PUSH: push to macOS"
 (add-hook 'after-save-hook #'gtags-update-hook)
 
 ;; FlyCheck
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(use-package flycheck
+  :init (global-flycheck-mode)
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+
 (defun my-flycheck-c-setup ()
   (setq flycheck-clang-language-standard "gnu99"))
 (setq flycheck-emacs-lisp-load-path 'inherit)
 (add-hook 'c-mode-hook #'my-flycheck-c-setup)
 
-;; org mode
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
+;;; local package
+(use-package init-org
+  :ensure nil)
+(use-package init-languages
+  :ensure nil)
+
+;;(use-package yequake)
+;;  :custom
+;;  (yequake-frames
+;;   '(("org-capture"
+;;      (buffer-fns . (yequake-org-capture))
+;;      (width . 0.75)
+;;      (height . 0.5)
+;;      (alpha . 0.95)
+;;      (frame-parameters . ((undecorated . t)
+;;                           (skip-taskbar . t)
+;;                           (sticky . t))))))
 
 ; (setq org-latex-compiler "xelatex")
 ; (setq org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
 ; (setq-default TeX-engine 'xetex)
 ; (setq-default TeX-PDF-mode t)
 
-;; C++
-(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
-
-;; C
-(defun my-flycheck-c-setup ()
-  (setq flycheck-clang-language-standard "gnu99"))
-(add-hook 'c-mode-hook #'my-flycheck-c-setup)
-(setq-default c-basic-offset 4)
-(global-set-key (kbd "C-c C-r") 'compile)
-(global-set-key (kbd "C-c C-t") 'gdb)
-
-; Go
-(setq gofmt-command "goimports")
-(defun my-go-mode-hook ()
-  "Auto format and import on save."
-  (add-hook 'before-save-hook 'gofmt-before-save)
-;  (add-hook 'before-save-hook 'lsp-format-buffer)
-  (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command)
-           "go generate && go build -v && go test -v && go vet"))
-  (local-set-key (kbd "M-.") 'godef-jump))
-(add-hook 'go-mode-hook 'my-go-mode-hook)
-(add-hook 'go-mode-hook #'yas-minor-mode)
-; (add-to-list 'load-path "~/.emacs.d/elpa/go-mode-20160715.1705")
-; (add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-20150618.1949/")
-; (add-to-list 'load-path "~/.emacs.d/elpa/popup-20150626.711/")
-; (require 'go-mode-load)
-; (require 'go-autocomplete)
-; (require 'auto-complete-config)
-; (add-hook 'go-mode-hook 'go-eldoc-setup)
-; (add-to-list 'load-path (concat (getenv "GOPATH") "/src/github.com/golang/lint/misc/emacs"))
-; (require 'golint)
-(require 'lsp-clients)
-(require 'company-lsp)
-(push 'company-lsp company-backends)
-(require 'lsp-mode)
-; (setq lsp-prefer-flymake nil)
-(add-hook 'go-mode-hook 'lsp)
-
-;; python
-(setq
- python-shell-interpreter "ipython"
- python-shell-interpreter-args "--colors=Linux --profile=default --simple-prompt -i"
- python-shell-prompt-regexp "In \\[[0-9]+\\]: "
- python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
- python-shell-completion-setup-code
- "from IPython.core.completerlib import module_completion"
- python-shell-completion-module-string-code
- "';'.join(module_completion('''%s'''))\n"
- python-shell-completion-string-code
- "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
-
-(define-coding-system-alias 'UTF-8 'utf-8)
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-(setq elpy-rpc-python-command "python3")
 
 ;; ediff
 (custom-set-variables
@@ -503,9 +398,12 @@ PUSH: push to macOS"
  '(ediff-split-window-function (quote split-window-horizontally))
  '(fci-rule-color "#3E4451")
  '(lsp-ui-sideline-show-hover t)
+ '(org-export-backends (quote (ascii html icalendar latex md)))
  '(package-selected-packages
    (quote
-    (lsp-go lsp-ui buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets company-lsp lsp-mode go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck auto-complete ace-window))))
+    (lsp-sh sh-mode shell-script-mode ox-gfm yaml-mode ob-go yequake lsp-go buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck ace-window)))
+ '(tramp-mode nil nil (tramp))
+ '(tramp-remote-path nil nil (tramp)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
