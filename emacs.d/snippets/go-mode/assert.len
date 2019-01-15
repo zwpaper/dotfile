@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: assert len
+# key: assert.len
+# --
+assert.Len(t, $0, , "")

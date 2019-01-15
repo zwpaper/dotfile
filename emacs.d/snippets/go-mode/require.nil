@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: require nil
+# key: require.nil
+# --
+require.Nil(t, err, "$0")

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: json unmarshal
+# key: jsonun
+# --
+err = json.Unmarshal($0)
+if err != nil {
+   
+}

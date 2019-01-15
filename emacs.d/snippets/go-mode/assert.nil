@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: assert nil
+# key: assert.nil
+# --
+assert.Nil(t, $0, "")
