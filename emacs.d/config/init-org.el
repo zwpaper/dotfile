@@ -8,9 +8,13 @@
 ;;; org mode
 (use-package org
   :bind (("C-M-f" . org-do-demote)
-         ("C-M-b" . org-do-promote))
+         ("C-M-b" . org-do-promote)
+         ("C-M-p" . org-move-subtree-up)
+         ("C-M-n" . org-move-subtree-down))
   :config
-  (setq org-log-done t))
+  (setq org-log-done t)
+  (setq org-agenda-files (list "~/Dropbox/org-mode/"
+                               "~/Dropbox/org-mode/tasks")))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (eval-after-load "org"
@@ -30,19 +34,23 @@
 ;;;; Tamplates
 (add-to-list 'org-capture-templates
              '("b" "Book Reading Task" entry
-               (file+headline "~/Dropbox/org-mode/notes/memo/readList.org" "inbox")
+               (file+headline "~/Dropbox/org-mode/tasks/readList.org" "inbox")
                "* TODO %^{Book Name}\n%u\n%a\n" :clock-in t :clock-resume t))
 (add-to-list 'org-capture-templates
              '("w" "Work Task" entry
-               (file+headline "~/Dropbox/org-mode/work/inbox.org" "Work")
+               (file+headline "~/Dropbox/org-mode/tasks/inbox.org" "Work")
                "* TODO %^{Task Name}\n%u\n%a\n" :clock-in t :clock-resume t))
 (add-to-list 'org-capture-templates
              '("t" "Personal Task" entry
-               (file+headline "~/Dropbox/org-mode/inbox.org" "Task")
+               (file+headline "~/Dropbox/org-mode/tasks/inbox.org" "Personal")
                "* TODO %^{Task Name}\n%u\n%a\n" :clock-in t :clock-resume t))
 (add-to-list 'org-capture-templates
-             '("n" "Notes" entry (file "~/Dropbox/org-mode/notes/inbox.org")
+             '("n" "Notes" entry
+               (file+headline "~/Dropbox/org-mode/tasks/inbox.org", "Notes")
                "* %^{heading} %t %^g\n  %?\n"))
+
+;;;; org protocol capture from outside Emacs
+;;;; Should be update later
 (add-to-list 'org-capture-templates
              '("l" "Notes with link" plain
                (file+function "~/Dropbox/org-mode/notes/inbox.org" org-capture-template-goto-link)
@@ -71,6 +79,7 @@
                 ))
   (select-frame-by-name "remember")
   (org-capture))
+;;;; End capture from outside Emacs
 
 ;;; GTD
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
