@@ -150,9 +150,10 @@
 ;; (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 ;; Whitespace
-(require 'whitespace)
-(setq-default whitespace-style '(face trailing lines-tail))
-(global-whitespace-mode 1)
+(use-package whitespace
+  :config
+  (setq-default whitespace-style '(face trailing lines-tail))
+  (global-whitespace-mode 1))
 
 ;; Del trailing space
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -397,10 +398,11 @@
  '(ediff-split-window-function (quote split-window-horizontally))
  '(fci-rule-color "#3E4451")
  '(lsp-ui-sideline-show-hover t)
+ '(org-agenda-files (quote ("~/Dropbox/org-mode/tasks")))
  '(org-export-backends (quote (ascii html icalendar latex md)))
  '(package-selected-packages
    (quote
-    (lsp-sh sh-mode shell-script-mode ox-gfm yaml-mode ob-go yequake lsp-go buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck ace-window)))
+    (pdf-tools lsp-sh sh-mode shell-script-mode ox-gfm yaml-mode ob-go yequake lsp-go buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck ace-window)))
  '(tramp-mode nil nil (tramp))
  '(tramp-remote-path nil nil (tramp)))
 (custom-set-faces
