@@ -90,6 +90,9 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init
+  (setq markdown-command "/usr/local/bin/pandoc")
+  :config)
 
 (provide 'init-languages)
+;;; init-languages.el ends here
