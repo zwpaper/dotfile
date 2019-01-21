@@ -76,6 +76,71 @@
       (package-install p))))
 
 
+;;; Treemacs
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (treemacs-resize-icons 44)
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode t)
+  (pcase (cons (not (null (executable-find "git")))
+               (not (null (executable-find "python3"))))
+    (`(t . t)
+     (treemacs-git-mode 'deferred))
+    (`(t . _)
+     (treemacs-git-mode 'simple)))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-evil
+  :after treemacs evil
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+:config (treemacs-icons-dired-mode))
+
+;;; Funny Skin
+(use-package emojify
+  :config
+  (add-hook 'org-mode-hook #'global-emojify-mode))
+(use-package all-the-icons)
+(use-package doom-modeline
+  :config
+  :hook
+  (after-init . doom-modeline-init))
+(use-package nyan-mode
+  :hook
+  (after-init . nyan-mode))
+(use-package doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+  ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
+  ;; may have their own settings.
+  (load-theme 'doom-one t)
+  ; (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
 ;;; Bookmarks
 (setq bookmark-save-flag 1) ; everytime bookmark is changed, automatically save it
 
@@ -117,6 +182,7 @@
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
 (show-paren-mode 1)
+
 
 ; Global Settings:
 ;; Key bindings
@@ -366,7 +432,8 @@
 (use-package init-languages
   :ensure nil)
 
-(server-start)
+(load "server")
+(unless (server-running-p) (server-start))
 
 ;;(use-package yequake)
 ;;  :custom
@@ -402,7 +469,7 @@
  '(org-export-backends (quote (ascii html icalendar latex md)))
  '(package-selected-packages
    (quote
-    (pdf-tools lsp-sh sh-mode shell-script-mode ox-gfm yaml-mode ob-go yequake lsp-go buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck ace-window)))
+    (doom-themes treemacs-icons-dired treemacs-projectile treemacs-evil treemacs doom-modeline nyan-mode emojify awesome-pair lsp-ui lsp-mode pdf-tools lsp-sh sh-mode shell-script-mode ox-gfm yaml-mode ob-go yequake lsp-go buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck ace-window)))
  '(tramp-mode nil nil (tramp))
  '(tramp-remote-path nil nil (tramp)))
 (custom-set-faces
