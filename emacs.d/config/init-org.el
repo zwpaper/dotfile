@@ -13,8 +13,9 @@
          ("C-M-n" . org-move-subtree-down))
   :config
   (setq org-log-done t)
-  (setq org-agenda-files (list "~/Dropbox/org-mode/"
-                               "~/Dropbox/org-mode/tasks")))
+  (setq org-agenda-files (list "~/Dropbox/org-mode/tasks/personal.org"
+                               "~/Dropbox/org-mode/tasks/work.org"
+                               "~/Dropbox/org-mode/tasks/family.org")))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (eval-after-load "org"
@@ -25,7 +26,16 @@
 ;;;; Capture
 (global-set-key (kbd "C-c c") 'org-capture)
 (setq org-default-notes-file "~/Dropbox/org-mode/inbox.org")
-
+(setq org-refile-targets '(("~/Dropbox/org-mode/tasks/personal.org" :maxlevel . 3)
+                           ("~/Dropbox/org-mode/tasks/work.org" :maxlevel . 3)
+                           ("~/Dropbox/org-mode/tasks/next.org" :maxlevel . 3)
+                           ("~/Dropbox/org-mode/tasks/family.org" :maxlevel . 3)
+                           ("~/Dropbox/org-mode/tasks/maybe.org" :level . 1)))
+(setq org-agenda-custom-commands
+      '(("o" "At the office" tags-todo "@Office"
+         ((org-agenda-overriding-header "Office")))
+        ("p" "At the home" tags-todo "@Home"
+         ((org-agenda-overriding-header "Home")))))
 (use-package org-protocol
   :ensure nil)
 (use-package org-capture
@@ -82,7 +92,11 @@
 ;;;; End capture from outside Emacs
 
 ;;; GTD
-(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                          (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
 (setq org-tag-alist '(("@office" . ?o) ("@home" . ?h) ("@computer" . ?c)))
+(setq org-log-done 'time)
+(setq org-log-into-drawer t)
+(setq org-log-state-notes-insert-after-drawers nil)
 
 (provide 'init-org)
