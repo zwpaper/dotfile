@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: delete slice in for
+# key: slice.for.delete
+# --
+	newSlice := ${1:origin}[:0]
+	for _, i := range ${2:origin} {
+		if ${3:condition} {
+			newSlice = append(newSlice, i)
+		}
+	}

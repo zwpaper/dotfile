@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: uuid v4
+# key: uuid
+# --
+		id, err := uuid.NewV4()
+		if err != nil {
+			return err
+		}
+		$0 = hex.EncodeToString(id.Bytes())
