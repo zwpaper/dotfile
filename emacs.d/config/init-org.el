@@ -94,9 +94,19 @@
 ;;; GTD
 (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                           (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")))
+(setq org-todo-keyword-faces
+      '(("NEXT" . (:foreground "red" :weight bold))
+        ("WAITING" . "magenta")))
 (setq org-tag-alist '(("@office" . ?o) ("@home" . ?h) ("@computer" . ?c)))
 (setq org-log-done 'time)
 (setq org-log-into-drawer t)
 (setq org-log-state-notes-insert-after-drawers nil)
+
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
 (provide 'init-org)
