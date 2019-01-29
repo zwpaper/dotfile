@@ -119,7 +119,7 @@
 ;;; Funny Skin
 (use-package emojify
   :config
-  (add-hook 'org-mode-hook #'global-emojify-mode))
+  (add-hook 'org-mode-hook #'emojify-mode))
 (use-package all-the-icons)
 (use-package doom-modeline
   :config
@@ -143,6 +143,12 @@
 
 ;;; Bookmarks
 (setq bookmark-save-flag 1) ; everytime bookmark is changed, automatically save it
+(use-package recentf
+  :init
+  (recentf-mode 1)
+  :config
+  (setq-default recent-save-file "~/.emacs.d/recentf")
+  (setq recentf-max-menu-items 100))
 
 ; macOS
 ;; (menu-bar-mode -1)
@@ -469,7 +475,7 @@
  '(org-export-backends (quote (ascii html icalendar latex md)))
  '(package-selected-packages
    (quote
-    (doom-themes treemacs-icons-dired treemacs-projectile treemacs-evil treemacs doom-modeline nyan-mode emojify awesome-pair lsp-ui lsp-mode pdf-tools lsp-sh sh-mode shell-script-mode ox-gfm yaml-mode ob-go yequake lsp-go buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck ace-window)))
+    (python-mode recentf-mode lsp-haskell doom-themes treemacs-icons-dired treemacs-projectile treemacs-evil treemacs doom-modeline nyan-mode emojify awesome-pair lsp-ui lsp-mode pdf-tools lsp-sh sh-mode shell-script-mode ox-gfm yaml-mode ob-go yequake lsp-go buffer-move elscreen atom-one-dark-theme yasnippet-snippets go-snippets go-rename smooth-scroll markdown-preview-mode markdown-mode helm-ag pyim elpy exec-path-from-shell all-the-icons neotree flycheck-haskell haskell-mode go-add-tags magit yasnippet sr-speedbar highlight-parentheses helm-projectile go-eldoc ggtags flycheck ace-window)))
  '(tramp-mode nil nil (tramp))
  '(tramp-remote-path nil nil (tramp)))
 (custom-set-faces
