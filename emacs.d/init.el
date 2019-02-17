@@ -35,9 +35,6 @@
     helm
     helm-projectile
     virtualenvwrapper
-    eshell-z
-    esh-autosuggest
-    eshell-fringe-status
     eshell-prompt-extras
     exec-path-from-shell
 ;;; org mode
@@ -56,7 +53,6 @@
     go-add-tags
 ;;; Haskell
     haskell-mode
-    intero
 ;;; Python
     )
   "List of packages needs to be installed at launch.")
@@ -253,23 +249,28 @@
 (global-set-key (kbd "C-M-]") 'avy-goto-char)
 (global-set-key (kbd "C-M-[") 'avy-goto-char-2)
 
-;; eshell
-(add-hook 'eshell-mode-hook #'esh-autosuggest-mode)
-(add-hook 'eshell-mode-hook 'eshell-fringe-status-mode)
-(add-hook 'eshell-mode-hook
-          (defun my-eshell-mode-hook ()
-            (require 'eshell-z)))
+;; color-rg
+(use-package color-rg
+  :ensure nil
+  )
+;; aweshell
+(use-package aweshell
+  :ensure nil
+  :init
+  (use-package eshell)
+  (use-package eshell-up)
+  (use-package eshell-did-you-mean)
+  :config
+  ;; eshell
 
-; (with-eval-after-load "esh-opt"
-;   (autoload 'epe-theme-dakrone "eshell-prompt-extras")
-;   (setq eshell-highlight-prompt nil
-;         eshell-prompt-function 'epe-theme-dakrone))
-(with-eval-after-load "esh-opt"
-   (require 'virtualenvwrapper)
-   (venv-initialize-eshell)
-  (autoload 'epe-theme-dakrone "eshell-prompt-extras")
-  (setq eshell-highlight-prompt nil
-        eshell-prompt-function 'epe-theme-dakrone))
+  (with-eval-after-load "esh-opt"
+    (require 'virtualenvwrapper)
+    (venv-initialize-eshell)
+    (autoload 'epe-theme-dakrone "eshell-prompt-extras")
+    (setq eshell-highlight-prompt nil
+          eshell-prompt-function 'epe-theme-dakrone))
+  )
+
 
 
 ; Global
