@@ -13,7 +13,7 @@
          ("C-M-n" . org-move-subtree-down))
   :config
   (setq org-log-done t)
-  (setq org-agenda-files (list "~/Dropbox/org-mode/tasks/personal.org"
+  (setq org-agenda-files (list "~/Dropbox/org-mode/tasks/"
                                "~/Dropbox/org-mode/tasks/work.org"
                                "~/Dropbox/org-mode/tasks/family.org")))
 (define-key global-map "\C-cl" 'org-store-link)
