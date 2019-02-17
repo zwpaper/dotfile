@@ -76,6 +76,17 @@
     (when (not (package-installed-p p))
       (package-install p))))
 
+;; Start up dashboard
+(use-package dashboard
+    :ensure t
+    :diminish dashboard-mode
+    :config
+    (setq dashboard-banner-logo-title "Welcome to Black Magic")
+    (setq dashboard-startup-banner "~/.emacs.d/config/ironman.png")
+    (setq dashboard-items '((recents  . 10)
+                            (bookmarks . 10)))
+    (add-to-list 'dashboard-items '(agenda) t)
+    (dashboard-setup-startup-hook))
 
 ;;; Treemacs
 (use-package treemacs
