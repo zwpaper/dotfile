@@ -19,7 +19,7 @@ esac
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="dst"
-plugins=(git z zsh-autosuggestions)
+plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 ENABLE_CORRECTION="true"
 ZSH_TMUX_AUTOSTART="true"
 
@@ -61,7 +61,7 @@ alias -s tgz='tar -xzvf'
 alias -s zip='unzip'
 alias -s bz2='tar -xjvf'
 
-alias e='emacs'
+alias e='emacsclient'
 
 # Git
 alias gcl='git clone'
