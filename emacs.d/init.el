@@ -1,12 +1,17 @@
+;;; init --- Summary
+;;; Commentary:
 
-
+;;; Code:
 
 ; Package install
 (require 'package)
 (setq package-archives
-      '(("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+      '(
+        ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
         ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-        ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+        ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+        ; ("melpa" . "https://melpa.org/packages/")
+))
 (package-initialize)
 
 ;;; use package
