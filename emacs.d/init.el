@@ -190,6 +190,11 @@
 (autopair-global-mode) ;; enable autopair in all buffers
 (show-paren-mode 1)
 
+(use-package epa-file
+  :ensure nil
+  :config
+  (epa-file-enable)
+  (setq epa-pinentry-mode 'loopback))
 
 ; Global Settings:
 ;; Key bindings
@@ -225,8 +230,11 @@
 ;; Whitespace
 (use-package whitespace
   :config
-  (setq-default whitespace-style '(face trailing lines-tail))
-  (global-whitespace-mode 1))
+  (setq-default whitespace-style '(face tailing lines-tail))
+  (global-whitespace-mode 1)
+  :hook
+  (shell-mode-hook . (lambda () (setq whitespace-style '(face tailing))))
+  (org-mode-hook . (lambda () (setq whitespace-style '(face tailing)))))
 
 ;; Del trailing space
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
