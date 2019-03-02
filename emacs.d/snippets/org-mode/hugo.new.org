@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: hugo new org
+# key: hugo.org
+# --
+#+HUGO_BASE_DIR: ../
+#+TITLE:
+#+DATE:
+#+HUGO_AUTO_SET_LASTMOD: t
+#+HUGO_TAGS:
+#+HUGO_CATEGORIES:
+#+HUGO_DRAFT: false
