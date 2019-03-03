@@ -115,3 +115,8 @@ fi
 HTTP_PROXY=http://127.0.0.1:7890
 HTTPS_PROXY=http://127.0.0.1:7890
 NO_PROXY=127.0.0.1,localhost,192.168.0.0/16,10.0.0.0/8
+
+export PUB_HOSTED_URL=https://pub.flutter-io.cn
+export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+export PATH="$HOME/repo/flutter/bin:$PATH"
+

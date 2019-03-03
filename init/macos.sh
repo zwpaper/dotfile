@@ -1,6 +1,7 @@
 # Manually
 echo "* touchpad touch as click"
 echo "* touchpad disable three key functions"
+echo "* add ssh key to github"
 
 # Env
 repoPath=$HOME"/repo"
@@ -17,6 +18,11 @@ spark
 mweb
 xnip
 airmail
+"
+## Homebrew Cask
+brewApps="
+global
+golang
 "
 ## Homebrew Cask
 caskApps="
