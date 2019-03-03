@@ -109,4 +109,7 @@
 
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
+;;; hugo blog
+(use-package ox-hugo
+  :after ox)
 (provide 'init-org)

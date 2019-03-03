@@ -7,9 +7,18 @@ case `uname` in
         export GOPATH=$HOME"/code/golang"
         ;;
     Linux)
-        export HOME="/root"
+        export HOME="/home/paper"
         export GOROOT=/usr/local/go
         export GOPATH=$HOME/golang
+
+        pacman() {
+            case $1 in
+                 -S | -D | -S[^sih]* | -R* | -U*)
+                    /usr/bin/sudo /usr/bin/pacman "$@" ;;
+                 *)
+                    /usr/bin/pacman "$@" ;;
+            esac
+        }
         ;;
     FreeBSD)
         # commands for FreeBSD go here
@@ -19,7 +28,7 @@ esac
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="dst"
-plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git z zsh-autosuggestions zsh-syntax-highlighting tmux)
 ENABLE_CORRECTION="true"
 ZSH_TMUX_AUTOSTART="true"
 
@@ -101,3 +110,8 @@ cdmk() { mkdir $@ && cd $_ ;}
 if [ -f ~/.zsh.work ]; then
     source ~/.zsh.work
 fi
+
+# env
+HTTP_PROXY=http://127.0.0.1:7890
+HTTPS_PROXY=http://127.0.0.1:7890
+NO_PROXY=127.0.0.1,localhost,192.168.0.0/16,10.0.0.0/8
