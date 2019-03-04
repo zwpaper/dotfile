@@ -4,6 +4,7 @@
 
 ;;; Code:
 (use-package flycheck)
+
 (use-package lsp-mode
   :commands lsp
   :init
@@ -60,28 +61,41 @@
 
 
 
-;; python
-(setq
- python-shell-interpreter "ipython"
- python-shell-interpreter-args "--colors=Linux --profile=default --simple-prompt -i"
- python-shell-prompt-regexp "In \\[[0-9]+\\]: "
- python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
- python-shell-completion-setup-code
- "from IPython.core.completerlib import module_completion"
- python-shell-completion-module-string-code
- "';'.join(module_completion('''%s'''))\n"
- python-shell-completion-string-code
- "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+;; ;; python
+(use-package lsp-python
+  :config
+  (lsp-define-stdio-client lsp-python "python"
+                           (lsp-make-traverser #'(lambda (dir)
+                                                   (directory-files
+                                                    dir
+                                                    nil
+                                                    "\\(__init__\\|setup\\)\\.py\\|Pipfile")))
+                           '("pyls"))
 
-(define-coding-system-alias 'UTF-8 'utf-8)
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-(setq elpy-rpc-python-command "python3")
+  )
+; (add-hook 'python-mode-hook #'lsp-python-enable)
+
+(use-package python-mode
+  :init
+  :config
+  (add-hook 'python-mode-hook  'lsp))
+  
+
+;;   (setq   python-shell-interpreter "ipython"
+;;           python-shell-interpreter-args "--colors=Linux --profile=default --simple-prompt -i"
+;;           python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+;;           python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+;;           python-shell-completion-setup-code
+;;           "from IPython.core.completerlib import module_completion"
+;;           python-shell-completion-module-string-code
+;;           "';'.join(module_completion('''%s'''))\n"
+;;           python-shell-completion-string-code
+;;           "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"))
+;; 
+;; (require 'ansi-color)
+;; (define-coding-system-alias 'UTF-8 'utf-8)
+;; (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
 
 ;; Markdown
 (use-package markdown-mode
@@ -93,6 +107,9 @@
   :init
   (setq markdown-command "/usr/local/bin/pandoc")
   :config)
+(use-package markdown-toc
+  :defer t
+  )
 
 (provide 'init-languages)
 ;;; init-languages.el ends here

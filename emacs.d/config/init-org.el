@@ -15,7 +15,27 @@
   (setq org-log-done t)
   (setq org-agenda-files (list "~/Dropbox/org-mode/tasks/"
                                "~/Dropbox/org-mode/tasks/work.org"
-                               "~/Dropbox/org-mode/tasks/family.org")))
+                               "~/Dropbox/org-mode/tasks/family.org"))
+  (setq org-agenda-custom-commands
+      '(("o" "At the office" tags-todo "@Office"
+         ((org-agenda-overriding-header "Office")))
+        ("p" "At the home" tags-todo "@Home"
+         ((org-agenda-overriding-header "Home")))
+        ("r" . "Review")
+        ("ry" "Closed Yesterday"
+         tags (concat "+TODO=\"DONE\""
+                      "+CLOSED>=\""
+                      (format-time-string "[%Y-%m-%d]" (time-subtract (current-time) (days-to-time 1)))
+                      "\""))
+        ("rw" "Get Current: Review Previous Calendar"
+         ((agenda "" ((org-agenda-start-day (concat "-" (number-to-string (+ 13 (nth 6 (decode-time)))) "d"))
+                      (org-agenda-span (+ 14 (nth 6 (decode-time))))
+                      (org-agenda-repeating-timestamp-show-all t)
+                      (org-agenda-entry-types '(:deadline :timestamp :sexp)) ; show due tasks, meetings
+                      (org-agenda-show-log t)
+                      (org-agenda-prefix-format "%-12t% s"))))
+         ))))
+
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (eval-after-load "org"
@@ -31,11 +51,7 @@
                            ("~/Dropbox/org-mode/tasks/next.org" :maxlevel . 3)
                            ("~/Dropbox/org-mode/tasks/family.org" :maxlevel . 3)
                            ("~/Dropbox/org-mode/tasks/maybe.org" :level . 1)))
-(setq org-agenda-custom-commands
-      '(("o" "At the office" tags-todo "@Office"
-         ((org-agenda-overriding-header "Office")))
-        ("p" "At the home" tags-todo "@Home"
-         ((org-agenda-overriding-header "Home")))))
+
 (use-package org-protocol
   :ensure nil)
 (use-package org-capture
@@ -112,4 +128,9 @@
 ;;; hugo blog
 (use-package ox-hugo
   :after ox)
+
+(org-babel-do-load-languages 'org-babel-load-languages
+                             '(
+                               (shell . t)))
 (provide 'init-org)
+;;; init-org.el ends here

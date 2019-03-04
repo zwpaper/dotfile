@@ -37,6 +37,7 @@ export LC_ALL="en_US.UTF-8"
 export PATH="$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 export PATH=$HOME/.bin:/usr/local/bin/:$GOROOT/bin:$GOPATH/bin:$PATH
+export PATH="$HOME/Library/Haskell/bin:$PATH"
 
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
