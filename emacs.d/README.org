@@ -62,6 +62,31 @@
 
 *** General
 
+**** Thing Edit
+     #+begin_src emacs-lisp
+       ;; unbind C-w and M-w first, for binding in thing edit
+       (global-unset-key (kbd "C-w"))
+       (global-unset-key (kbd "M-w"))
+       (use-package thing-edit
+         :ensure nil
+         :bind
+         (("C-w C-w" . thing-cut-word)
+          ("M-w M-w" . thing-copy-word)
+          ("C-w C-r" . thing-cut-region-or-line)
+          ("M-w M-r" . thing-copy-region-or-line)
+          ("C-w C-s" . thing-cut-sexp)
+          ("M-w M-s" . thing-copy-sexp)
+          ("C-w C-f" . thing-cut-filename)
+          ("M-w M-f" . thing-copy-filename)
+          ("C-w C-u" . thing-cut-url)
+          ("M-w M-u" . thing-copy-url))
+          ("C-w C-p" . thing-cut-parentheses)
+          ("M-w M-p" . thing-copy-parentheses)
+          ("C-w C-c" . thing-cut-comment)
+          ("M-w M-c" . thing-copy-comment)
+          ("C-w C-b" . thing-cut-whole-buffer)
+          ("M-w M-b" . thing-cut-whole-buffer))
+     #+end_src
 **** White spaces
 #+begin_src emacs-lisp
   (defun moon-hungry-delete ()
