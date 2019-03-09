@@ -78,6 +78,8 @@ for i in $caskApps; do
     brew cask install $i
 done
 
+brew tap homebrew/cask-fonts && brew cask install font-source-code-pro
+
 # dev software
 # dev env
 if [ ! -d $repoPath ]; then
