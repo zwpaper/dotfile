@@ -226,7 +226,7 @@
 #+end_src
 
 -----
-** TODO
+** TODO COMMENT
 ;; Guarantee all packages are installed on start
 ;; Common Lisp Emulation
 (require 'cl)
@@ -321,7 +321,7 @@
   (use-package treemacs-icons-dired
     :after treemacs dired
     :ensure t
-  :config (treemacs-icons-dired-mode))
+    :config (treemacs-icons-dired-mode))
 
   ;;; Funny Skin
   (use-package emojify
@@ -344,7 +344,7 @@
     ;; Load the theme (doom-one, doom-molokai, etc); keep in mind that each theme
     ;; may have their own settings.
     (load-theme 'doom-one t)
-    ; (doom-themes-treemacs-config)
+                                          ; (doom-themes-treemacs-config)
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
 
@@ -358,7 +358,7 @@
     (setq recentf-max-menu-items 100))
 
 
-  ; Vars
+  ;;; Vars
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4)
   (add-to-list 'exec-path "/usr/local/bin")
@@ -399,8 +399,8 @@
                        (name . "\*Apropos\*")
                        (name . "\*info\*"))))))
   (add-hook 'ibuffer-mode-hook
-        '(lambda ()
-           (ibuffer-switch-to-saved-filter-groups "home")))
+            '(lambda ()
+               (ibuffer-switch-to-saved-filter-groups "home")))
   (setq ibuffer-expert t)
   (setq ibuffer-show-empty-filter-groups nil)
 
@@ -451,43 +451,46 @@
   (use-package aweshell
     :ensure nil
     :init
-    (use-package eshell)
     (use-package eshell-up)
     (use-package eshell-did-you-mean)
     :config
+    (add-hook 'eshell-mode-hook
+              (defun my-eshell-mode-hook ()
+                (require 'eshell-z)))
     ;; eshell
-
     (with-eval-after-load "esh-opt"
-      (require 'virtualenvwrapper)
-      (venv-initialize-eshell)
+      (use-package virtualenvwrapper
+        :init
+        (venv-initialize-eshell))
       (autoload 'epe-theme-dakrone "eshell-prompt-extras")
       (setq eshell-highlight-prompt nil
-            eshell-prompt-function 'epe-theme-dakrone))
-    )
+            eshell-prompt-function 'epe-theme-dakrone)))
 
 
 
-  ; Global
+                                          ; Global
   ;; Theme
+  (use-package atom-one-dark-theme)
   (load-theme 'atom-one-dark t)
 
   (setq inhibit-compacting-font-caches t)
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "PATH")
-  (exec-path-from-shell-copy-env "GOPATH")
-  (exec-path-from-shell-copy-env "GOROOT")
+  (use-package exec-path-from-shell
+    :config
+    (exec-path-from-shell-initialize)
+    (exec-path-from-shell-copy-env "PATH")
+    (exec-path-from-shell-copy-env "GOPATH")
+    (exec-path-from-shell-copy-env "GOROOT"))
 
   ;; Pyim
-  (require 'pyim)
   (use-package pyim
     :ensure nil
     :config
     ;; 五笔用户使用 wbdict 词库
-     (use-package pyim-wbdict
-       :ensure nil
-       :config (pyim-wbdict-v98-enable))
+    (use-package pyim-wbdict
+      :ensure nil
+      :config (pyim-wbdict-v98-enable))
 
     (setq default-input-method "pyim")
     (setq pyim-default-scheme 'wubi)
@@ -524,8 +527,9 @@
      ("C-;" . pyim-delete-word-from-personal-buffer)))
   (global-set-key (kbd "C-\\") 'toggle-input-method)
 
-  ;; Helm
-  (require 'helm)
+  ;; Helm TODO
+  (use-package helm)
+  (use-package helm-projectile)
   (require 'helm-config)
   (helm-mode 1)
   (helm-autoresize-mode 1)
@@ -561,23 +565,25 @@
   (add-hook 'eshell-mode-hook #'(lambda () (setq ac-sources '(ac-source-pcomplete))))
 
   ;; magit
-  (global-set-key (kbd "C-x g") 'magit-status)
-  (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+  (use-package magit
+    :config
+    (global-set-key (kbd "C-x g") 'magit-status)
+    (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup))
 
   ;;; sr speedbar
-  ;(require 'sr-speedbar)
-  ;(setq sr-speedbar-right-side nil)
-  ;(setq sr-speedbar-width-console 20)
-  ;(setq sr-speedbar-default-width 20)
-  ;(setq sr-speedbar-max-width 20)
-  ;(sr-speedbar-width-console 10)
-  ; (sr-speedbar-max-width 10)
-  ;(global-set-key (kbd "C-c l") 'sr-speedbar-toggle)
+                                          ;(require 'sr-speedbar)
+                                          ;(setq sr-speedbar-right-side nil)
+                                          ;(setq sr-speedbar-width-console 20)
+                                          ;(setq sr-speedbar-default-width 20)
+                                          ;(setq sr-speedbar-max-width 20)
+                                          ;(sr-speedbar-width-console 10)
+                                          ; (sr-speedbar-max-width 10)
+                                          ;(global-set-key (kbd "C-c l") 'sr-speedbar-toggle)
 
   ;;YASnippet
-  (add-to-list 'load-path
-                "~/.emacs.d/plugins/yasnippet")
-  (require 'yasnippet)
+                                          ;(add-to-list 'load-path
+                                          ;              "~/.emacs.d/plugins/yasnippet")
+  (use-package yasnippet)
   (setq ac-source-yasnippet nil)
   ;; (define-key yas-minor-mode-map (kbd "<tab>") nil)
   ;; (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -648,10 +654,10 @@
   ;;                           (skip-taskbar . t)
   ;;                           (sticky . t))))))
 
-  ; (setq org-latex-compiler "xelatex")
-  ; (setq org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
-  ; (setq-default TeX-engine 'xetex)
-  ; (setq-default TeX-PDF-mode t)
+                                          ; (setq org-latex-compiler "xelatex")
+                                          ; (setq org-latex-pdf-process '("latexmk -xelatex -quiet -shell-escape -f %f"))
+                                          ; (setq-default TeX-engine 'xetex)
+                                          ; (setq-default TeX-PDF-mode t)
 #+end_src
 
 * Credits
