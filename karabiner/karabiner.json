@@ -572,6 +572,23 @@
                                 "type": "basic"
                             },
                             {
+                                "description": "right command + : to :",
+                                "from": {
+                                    "key_code": "simicolon",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "simicolon"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
                                 "description": "right command + q to -, hhkb is command",
                                 "from": {
                                     "key_code": "q",
