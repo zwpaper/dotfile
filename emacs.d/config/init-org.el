@@ -125,6 +125,12 @@
 
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
+(use-package org-download
+  :after org
+  :config
+  (setq org-startup-with-inline-images t)
+  (setq org-download-screenshot-method "screencapture -i %s"))
+
 ;;; hugo blog
 (use-package ox-hugo
   :after ox)
