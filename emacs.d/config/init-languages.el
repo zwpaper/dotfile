@@ -3,20 +3,29 @@
 ;;; Commentary:
 
 ;;; Code:
-(use-package flycheck)
+(use-package flycheck
+  :hook
+  (go-mode rust-mode python-mode))
 
 (use-package lsp-mode
   :commands lsp
   :init
+  (add-hook 'before-save-hook 'lsp-format-buffer)
   :config
-  (setq lsp-prefer-flymake nil))
+;  (setq lsp-prefer-flymake nil)
+  :hook
+  (go-mode rust-mode python-mode))
 (use-package lsp-ui
-  :commands lsp-ui-mode)
+  :commands lsp-ui
+  :hook
+  (lsp-mode))
 (use-package company-lsp
   :after company lsp-mode
   :commands company-lsp
   :config
-  (push 'company-lsp company-backends))
+  (push 'company-lsp company-backends)
+  :hook
+  (after-init . global-company-mode))
 
 ;; Bash
 (add-hook 'sh-mode-hook #'lsp-sh-enable)
@@ -53,33 +62,41 @@
 (use-package go-mode
   :init
   :config
-  (add-hook 'go-mode-hook 'lsp)
-  (add-hook 'before-save-hook 'lsp-format-buffer))
-(if (not (string-match "go" compile-command))
-    (set (make-local-variable 'compile-command)
-         "go generate && go build -v && go test -v && go vet"))
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go generate && go build -v && go test -v && go vet")))
+;  (add-hook 'go-mode-hook 'lsp)
+;  (add-hook 'go-mode-hook 'flycheck-mode)
+;  :hook
+;  (go-mode-hook . lsp)
+;  (go-mode-hook . flycheck-mode))
 
-
+;;; Rust
+(use-package rust-mode
+  :init
+  :config
+  (with-eval-after-load 'lsp-mode
+    (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))))
 
 ;; ;; python
-(use-package lsp-python
-  :config
-  (lsp-define-stdio-client lsp-python "python"
-                           (lsp-make-traverser #'(lambda (dir)
-                                                   (directory-files
-                                                    dir
-                                                    nil
-                                                    "\\(__init__\\|setup\\)\\.py\\|Pipfile")))
-                           '("pyls"))
-
-  )
-; (add-hook 'python-mode-hook #'lsp-python-enable)
+;(use-package lsp-python
+;  :config
+;  (lsp-define-stdio-client lsp-python "python"
+;                           (lsp-make-traverser #'(lambda (dir)
+;                                                   (directory-files
+;                                                    dir
+;                                                    nil
+;                                                    "\\(__init__\\|setup\\)\\.py\\|Pipfile")))
+;                           '("pyls"))
+;
+;  )
+;; (add-hook 'python-mode-hook #'lsp-python-enable)
 
 (use-package python-mode
   :init
   :config
   (add-hook 'python-mode-hook  'lsp))
-  
+
 
 ;;   (setq   python-shell-interpreter "ipython"
 ;;           python-shell-interpreter-args "--colors=Linux --profile=default --simple-prompt -i"
@@ -91,7 +108,7 @@
 ;;           "';'.join(module_completion('''%s'''))\n"
 ;;           python-shell-completion-string-code
 ;;           "';'.join(get_ipython().Completer.all_completions('''%s'''))\n"))
-;; 
+;;
 ;; (require 'ansi-color)
 ;; (define-coding-system-alias 'UTF-8 'utf-8)
 ;; (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
