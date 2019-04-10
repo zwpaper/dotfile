@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: sort.interface
-# key: sort.interface
-# --
-func (a $0) Len() int           { return len(a) }
-func (a ) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ) Less(i, j int) bool { return a[i].Age < a[j].Age }

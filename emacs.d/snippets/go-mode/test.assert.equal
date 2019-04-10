@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: test.assert.equal
-# key: assert.eq
-# --
-assert.Equal(t, $0, , "")
