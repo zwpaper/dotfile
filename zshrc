@@ -60,7 +60,10 @@ ${git_info}\
 %{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
 
 alias ls="lsd"
-alias la="lsd -a"
+alias la="ls -a"
+alias lla='ls -la'
+alias lt='ls --tree'
+
 alias cat="bat"
 
 alias rm='rm -i'
