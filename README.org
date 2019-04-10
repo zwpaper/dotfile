@@ -1,0 +1,39 @@
+* zwPapEr Dot File
+
+** Software
+
+Define needed software
+
+#+NAME: common-software 
+  - lsd
+  - bat
+
+Install software depend on systems
+
+#+NAME: install-software
+#+BEGIN_src sh :var cs=common-software
+  function get_system() {
+      case `uname` in
+          Darwin)
+              echo "brew install"
+              ;;
+          Linux)
+              case `cat /etc/issue | grep -v "^$" | awk '{print $1}'` in
+                  Arch)
+                      echo "sudo pacman -S"
+                      ;;
+              esac
+              ;;
+      esac
+  }
+
+  function install_software() {
+      install=`get_system`
+      for s in $1 ; do
+          $install $s
+          echo $s
+      done
+  }
+
+  install_software "$cs"
+#+END_src
