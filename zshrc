@@ -59,11 +59,10 @@ ${git_info}\
 %{$fg[white]%}[%*] $exit_code
 %{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
 
-if [ "$(uname 2> /dev/null)" = "Linux" ]; then
-   alias ls='ls -h --color=auto'
-   alias ll='ls -lh --color=auto'
-   alias la='ls -ah --color=auto'
-fi
+alias ls="lsd"
+alias la="lsd -a"
+alias cat="bat"
+
 alias rm='rm -i'
 alias grep="grep --color=auto"
 alias -s gz='tar -xzvf'
@@ -91,20 +90,6 @@ alias gcm='git commit -m'
 
 alias gre='git remote'
 alias grv='git remote -v'
-
-# Better tool than default
-## OS Specific
-case `uname` in
-    Darwin)
-    alias cat="bat"
-    alias ls="exa"
-        ;;
-    Linux)
-        ;;
-    FreeBSD)
-        # commands for FreeBSD go here
-        ;;
-esac
 
 # Function alias
 cdmk() { mkdir $@ && cd $_ ;}
