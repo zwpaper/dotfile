@@ -1,8 +1,20 @@
 * zwPapEr Dot File
 
+** init system
+
+   This is the index of this document,
+   execute the init src block will init the system.
+
+#+begin_src sh :var software=install-software
+  echo Done
+#+end_src
+
 ** Software
 
 Define needed software
+
+*** Mac
+    - ispell
 
 #+NAME: common-software 
   - lsd
