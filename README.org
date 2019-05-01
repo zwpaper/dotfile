@@ -13,8 +13,9 @@
 
 Define needed software
 
-*** Mac
-    - ispell
+#+NAME: mac-software 
+  - ispell
+  - font-hack-nerd-font
 
 #+NAME: common-software 
   - lsd
@@ -23,29 +24,22 @@ Define needed software
 Install software depend on systems
 
 #+NAME: install-software
-#+BEGIN_src sh :var cs=common-software
-  function get_system() {
+#+BEGIN_src sh :var cs=common-software mac=mac-software
+  function install_software() {
       case `uname` in
           Darwin)
-              echo "brew install"
+              brew install $cs
+              brew cask install $mac
               ;;
           Linux)
               case `cat /etc/issue | grep -v "^$" | awk '{print $1}'` in
                   Arch)
-                      echo "sudo pacman -S"
+                      sudo pacman -S $cs
                       ;;
               esac
               ;;
       esac
   }
 
-  function install_software() {
-      install=`get_system`
-      for s in $1 ; do
-          $install $s
-          echo $s
-      done
-  }
-
-  install_software "$cs"
+  install_software
 #+END_src
