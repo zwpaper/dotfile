@@ -11,7 +11,8 @@
                     "basic.simultaneous_threshold_milliseconds": 50,
                     "basic.to_delayed_action_delay_milliseconds": 500,
                     "basic.to_if_alone_timeout_milliseconds": 1000,
-                    "basic.to_if_held_down_threshold_milliseconds": 500
+                    "basic.to_if_held_down_threshold_milliseconds": 500,
+                    "mouse_motion_to_scroll.speed": 100
                 },
                 "rules": [
                     {
@@ -82,9 +83,9 @@
                         ]
                     },
                     {
+                        "description": "change control to control and esc.",
                         "manipulators": [
                             {
-                                "description": "change control to control and esc.",
                                 "from": {
                                     "key_code": "left_control",
                                     "modifiers": {
@@ -112,9 +113,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "change command to alfred and command.",
+                        "manipulators": [
                             {
-                                "description": "change command to alfred and command.",
                                 "from": {
                                     "key_code": "left_command",
                                     "modifiers": {
@@ -143,9 +148,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "change option to clipboard history and option.",
+                        "manipulators": [
                             {
-                                "description": "change option to clipboard history and option.",
                                 "from": {
                                     "key_code": "left_option",
                                     "modifiers": {
@@ -174,9 +183,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change spacebar to option.",
+                        "manipulators": [
                             {
-                                "description": "Change spacebar to option.",
                                 "from": {
                                     "key_code": "spacebar",
                                     "modifiers": {
@@ -187,26 +200,22 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "left_option",
-                                        "modifiers": [
-                                            "any"
-                                        ]
+                                        "key_code": "left_option"
                                     }
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "spacebar",
-                                        "modifiers": {
-                                            "optional": [
-                                                "any"
-                                            ]
-                                        }
+                                        "key_code": "spacebar"
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change quote to mod2(control + option + shift).",
+                        "manipulators": [
                             {
-                                "description": "Change quote to mod2(control + option + shift).",
                                 "from": {
                                     "key_code": "quote",
                                     "modifiers": {
@@ -235,9 +244,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change left shift to ( and shift.",
+                        "manipulators": [
                             {
-                                "description": "Change left shift to ( and shift.",
                                 "from": {
                                     "key_code": "left_shift",
                                     "modifiers": {
@@ -263,9 +276,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change right shift to ) and shift.",
+                        "manipulators": [
                             {
-                                "description": "Change right shift to ) and shift.",
                                 "from": {
                                     "key_code": "right_shift",
                                     "modifiers": {
@@ -291,9 +308,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change right option to chinese input.",
+                        "manipulators": [
                             {
-                                "description": "Change right option to chinese input.",
                                 "from": {
                                     "key_code": "right_option",
                                     "modifiers": {
@@ -322,9 +343,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change right command to english input.",
+                        "manipulators": [
                             {
-                                "description": "Change right command to english input.",
                                 "from": {
                                     "key_code": "right_command",
                                     "modifiers": {
@@ -353,9 +378,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "right command + mid line to numbers, hhkb is command",
+                        "manipulators": [
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "a",
                                     "modifiers": {
@@ -375,7 +404,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "s",
                                     "modifiers": {
@@ -395,7 +423,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "d",
                                     "modifiers": {
@@ -415,7 +442,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "f",
                                     "modifiers": {
@@ -435,7 +461,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "g",
                                     "modifiers": {
@@ -455,7 +480,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right option + mid line to numbers, hhkb is option",
                                 "from": {
                                     "key_code": "h",
                                     "modifiers": {
@@ -475,7 +499,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "j",
                                     "modifiers": {
@@ -495,7 +518,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "k",
                                     "modifiers": {
@@ -515,7 +537,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "l",
                                     "modifiers": {
@@ -535,7 +556,6 @@
                                 "type": "basic"
                             },
                             {
-                                "description": "right command + mid line to numbers, hhkb is command",
                                 "from": {
                                     "key_code": "semicolon",
                                     "modifiers": {
@@ -553,9 +573,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "right command + dot to dot, for ip input",
+                        "manipulators": [
                             {
-                                "description": "right command + dot to dot, for ip input",
                                 "from": {
                                     "key_code": "period",
                                     "modifiers": {
@@ -570,9 +594,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "right command + : to :",
+                        "manipulators": [
                             {
-                                "description": "right command + : to :",
                                 "from": {
                                     "key_code": "simicolon",
                                     "modifiers": {
@@ -587,9 +615,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "right command + q to -, hhkb is command",
+                        "manipulators": [
                             {
-                                "description": "right command + q to -, hhkb is command",
                                 "from": {
                                     "key_code": "q",
                                     "modifiers": {
@@ -607,9 +639,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "right command + w to +, hhkb is command",
+                        "manipulators": [
                             {
-                                "description": "right command + w to +, hhkb is command",
                                 "from": {
                                     "key_code": "w",
                                     "modifiers": {
@@ -632,9 +668,13 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "right command + e to backslash, hhkb is command",
+                        "manipulators": [
                             {
-                                "description": "right command + e to backslash, hhkb is command",
                                 "from": {
                                     "key_code": "e",
                                     "modifiers": {
