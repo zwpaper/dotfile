@@ -58,25 +58,46 @@ exa
 gnuApps="
 gnu-sed
 "
+### end macOS software
 
-# Mac tools
-which brew
-result=`echo $?`
-if [ X$result == X1 ]; then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew tap caskroom/fonts
-fi
+### start linux software
+linuxCliApps="
+emacs-nox
+base-devel
+"
 
-export HOMEBREW_NO_AUTO_UPDATE=1
-for i in $brewApps; do
-    brew install $i
-done
-for i in $gnuApps; do
-    brew install $i --with-default-names
-done
-for i in $caskApps; do
-    brew cask install $i
-done
+### Start installing
+os=`uname`
+case $os in
+    Darwin)
+	echo "Installing apps in macOS"
+	# Mac tools
+	which brew
+	result=`echo $?`
+	if [ X$result == X1 ]; then
+	    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	    brew tap caskroom/fonts
+	fi
+
+	export HOMEBREW_NO_AUTO_UPDATE=1
+	for i in $brewApps; do
+	    brew install $i
+	done
+	for i in $gnuApps; do
+	    brew install $i --with-default-names
+	done
+	for i in $caskApps; do
+	    brew cask install $i
+	done
+        ;;
+    Linux)
+	echo "Installing apps in Linux"
+	# Default using arch linux, may add other later
+	pacman -S $linuxCliApps --noconfirm
+        ;;
+esac
+
+### End installing
 
 brew tap homebrew/cask-fonts && brew cask install font-source-code-pro
 
@@ -104,19 +125,21 @@ if [ ! -h ~/.emacs.d ]; then
     echo "emacs done"
 fi
 
-# karabiner-elements
-if [ ! -f ~/.config/karabiner/karabiner.json ]; then
-    echo "setting karabiner..."
-    mv ~/.config/karabiner ~/.config/karabiner.bak
-    ln -s $dotPath/karabiner ~/.config/karabiner
-    echo "karabiner done"
-fi
+if [ $os == "Darwin" ] ; then
+    # karabiner-elements
+    if [ ! -f ~/.config/karabiner/karabiner.json ]; then
+	echo "setting karabiner..."
+	mv ~/.config/karabiner ~/.config/karabiner.bak
+	ln -s $dotPath/karabiner ~/.config/karabiner
+	echo "karabiner done"
+    fi
 
-# Sync
-## Spelling
-if [ ! -h ~/Library/Spelling ]; then
-    echo "sync spelling..."
-    sudo mv ~/Library/Spelling/ ~/Library/Spelling.bak
-    ln -s ~/Dropbox/AppSync/Spelling ~/Library/Spelling
-    echo "spelling done"
+    # Sync
+    ## Spelling
+    if [ ! -h ~/Library/Spelling ]; then
+	echo "sync spelling..."
+	sudo mv ~/Library/Spelling/ ~/Library/Spelling.bak
+	ln -s ~/Dropbox/AppSync/Spelling ~/Library/Spelling
+	echo "spelling done"
+    fi
 fi
