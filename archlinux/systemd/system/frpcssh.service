@@ -1,0 +1,12 @@
+[Unit]
+Description=frpc
+Documentation=frpc
+
+[Service]
+Type=simple
+ExecStart=/home/paper/frp/frpc -c /home/paper/frp/ssh.ini
+ExecStop=
+Restart=always
+
+[Install]
+WantedBy=default.target

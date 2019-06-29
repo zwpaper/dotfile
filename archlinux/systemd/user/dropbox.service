@@ -1,0 +1,13 @@
+[Unit]
+Description=Dropbox
+
+[Service]
+Environment=HOME=/cabin/dropbox
+Environment=HTTP_PROXY=http://127.0.0.1:8118
+ExecStart=/cabin/dropbox/.dropbox-dist/dropboxd
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

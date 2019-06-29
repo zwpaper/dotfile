@@ -1,0 +1,13 @@
+[Unit]
+Description=SSSS
+After=network.target
+
+[Service]
+User=root
+Type=simple
+ExecStart=/usr/bin/ssrr-local -c /home/paper/.config/ssss.local
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill $MAINPID
+
+[Install]
+WantedBy=multi-user.target

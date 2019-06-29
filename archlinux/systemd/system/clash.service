@@ -1,0 +1,12 @@
+[Unit]
+Description=Clash
+Documentation=https://github.com/Dreamacro/clash
+
+[Service]
+Type=simple
+ExecStart=/home/paper/.bin/clash
+ExecStop=
+Restart=always
+
+[Install]
+WantedBy=default.target
