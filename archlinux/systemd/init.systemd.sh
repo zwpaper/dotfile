@@ -11,4 +11,6 @@ for t in user system; do
     done
 done
 
+echo Manual:
+echo "dnsmasq using default service"
 echo "ssss.config in Dropbox/dotfile"
