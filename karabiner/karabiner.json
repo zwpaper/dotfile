@@ -702,6 +702,7 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
+                                            "^com\\.jetbrains\\.goland",
                                             "^org\\.gnu\\.Emacs$",
                                             "^org\\.gnu\\.AquamacsEmacs$",
                                             "^org\\.gnu\\.Aquamacs$",
@@ -769,6 +770,7 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
+                                            "^com\\.jetbrains\\.goland",
                                             "^org\\.gnu\\.Emacs$",
                                             "^org\\.gnu\\.AquamacsEmacs$",
                                             "^org\\.gnu\\.Aquamacs$",
@@ -853,6 +855,7 @@
                                             "^com\\.teamviewer\\.TeamViewer$",
                                             "^com\\.vmware\\.horizon$",
                                             "^com\\.2X\\.Client\\.Mac$",
+                                            "^com\\.jetbrains\\.goland",
                                             "^com\\.apple\\.Terminal$",
                                             "^com\\.googlecode\\.iterm2$",
                                             "^co\\.zeit\\.hyperterm$",
@@ -984,6 +987,7 @@
                                             "^org\\.gnu\\.Aquamacs$",
                                             "^org\\.pqrs\\.unknownapp.conkeror$",
                                             "^com\\.microsoft\\.rdc$",
+                                            "^com\\.jetbrains\\.goland",
                                             "^com\\.microsoft\\.rdc\\.mac$",
                                             "^com\\.microsoft\\.rdc\\.macos$",
                                             "^com\\.microsoft\\.rdc\\.osx\\.beta$",
@@ -1063,6 +1067,7 @@
                                             "^com\\.p5sys\\.jump\\.mac\\.viewer\\.web$",
                                             "^com\\.teamviewer\\.TeamViewer$",
                                             "^com\\.vmware\\.horizon$",
+                                            "^com\\.jetbrains\\.goland",
                                             "^com\\.2X\\.Client\\.Mac$",
                                             "^com\\.apple\\.Terminal$",
                                             "^com\\.googlecode\\.iterm2$",
@@ -1115,6 +1120,7 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
+                                            "^com\\.jetbrains\\.goland",
                                             "^org\\.gnu\\.Emacs$",
                                             "^org\\.gnu\\.AquamacsEmacs$",
                                             "^org\\.gnu\\.Aquamacs$",
@@ -1193,6 +1199,7 @@
                                             "^com\\.microsoft\\.rdc\\.osx\\.beta$",
                                             "^net\\.sf\\.cord$",
                                             "^com\\.thinomenon\\.RemoteDesktopConnection$",
+                                            "^com\\.jetbrains\\.goland",
                                             "^com\\.itap-mobile\\.qmote$",
                                             "^com\\.nulana\\.remotixmac$",
                                             "^com\\.p5sys\\.jump\\.mac\\.viewer$",
@@ -1283,6 +1290,7 @@
                                             "^com\\.parallels\\.vm$",
                                             "^com\\.parallels\\.desktop\\.console$",
                                             "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^com\\.jetbrains\\.goland",
                                             "^com\\.vmware\\.proxyApp\\.",
                                             "^com\\.parallels\\.winapp\\.",
                                             "^org\\.x\\.X11$",
