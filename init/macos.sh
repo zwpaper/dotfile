@@ -52,7 +52,7 @@ emacs
 golang
 global
 bat
-exa
+lsd
 "
 ## GNU Apps, should install with default name
 gnuApps="
