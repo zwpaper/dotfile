@@ -28,16 +28,16 @@ esac
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="dst"
-plugins=(git z zsh-autosuggestions zsh-syntax-highlighting tmux)
+plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 ENABLE_CORRECTION="true"
 ZSH_TMUX_AUTOSTART="true"
 
 # User configuration
 export LC_ALL="en_US.UTF-8"
-export PATH="$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
-export PATH=$HOME/.bin:/usr/local/bin/:$GOROOT/bin:$GOPATH/bin:$PATH
-export PATH="$HOME/Library/Haskell/bin:$PATH"
+export PATH=$HOME/.cabal/bin:$HOME/Library/Haskell/bin:$HOME/.local/bin:$GOROOT/bin:$GOPATH/bin:$PATH
+export PATH=$HOME/.bin:$PATH
+export PATH=$PATH:/usr/local/bin
 
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
@@ -107,7 +107,37 @@ HTTP_PROXY=http://127.0.0.1:7890
 HTTPS_PROXY=http://127.0.0.1:7890
 NO_PROXY=127.0.0.1,localhost,192.168.0.0/16,10.0.0.0/8
 
+# Lang
+export LDFLAGS="-L/usr/local/opt/ncurses/lib"
+export CPPFLAGS="-I/usr/local/opt/ncurses/include"
+
+## Flutter
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 export PATH="$HOME/repo/flutter/bin:$PATH"
 
+## Golang
+export GO111MODULE=on
+export GOPROXY=http://goproxy.cn
+
+## Python
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/sensetime/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/sensetime/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/sensetime/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/sensetime/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# iTerm2
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+iterm2_print_user_vars() {
+  it2git
+}
