@@ -28,7 +28,7 @@ esac
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="dst"
-plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 ENABLE_CORRECTION="true"
 ZSH_TMUX_AUTOSTART="true"
 
@@ -63,8 +63,8 @@ alias ls="lsd"
 alias la="ls -a"
 alias lla='ls -la'
 alias lt='ls --tree'
-
 alias cat="bat"
+eval "$(jump shell --bind=z)"
 
 alias rm='rm -i'
 alias grep="grep --color=auto"
