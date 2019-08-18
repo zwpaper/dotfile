@@ -13,36 +13,53 @@ hs.window.animationDuration = 0
 
 --- input source
 ---
+--- hs.keycodes.currentSourceID()
 -- right option to Chinese
 noInput = "com.apple.keylayout.ABC"
-qinggeInput = "com.aodaren.inputmethod.Qingg"
+rimeInput = "im.rime.inputmethod.Squirrel.Rime"
 hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "z",
    function()
-      source = hs.keycodes.currentSourceID()
-      if source ~= qinggeInput then
-         if not hs.keycodes.currentSourceID(qinggeInput) then
-            hs.alert.show("Can not change input source to qingge")
-         end
+      if not hs.keycodes.currentSourceID(rimeInput) then
+         hs.alert.show("Can not change input source to rime")
       end
 end)
 
 -- right command to English
 hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "e",
     function()
-        source = hs.keycodes.currentSourceID()
-        if source ~= noInput then
-           if not hs.keycodes.currentSourceID(noInput) then
-               hs.alert.show("Can not change input source to US")
-            end
-        end
+       if not hs.keycodes.currentSourceID(noInput) then
+          hs.alert.show("Can not change input source to US")
+       end
 end)
 
 --- changing input source depends on apps
-hs.application.watcher.new(
+inputWatcher = hs.application.watcher.new(
    function(name, e, app)
       if e == hs.application.watcher.activated then
-         if name == "Emacs" and not hs.keycodes.currentSourceID(noInput) then
+         if (name == "Emacs" or name == "iTerm2") and
+         not hs.keycodes.currentSourceID(noInput) then
             hs.alert.show("Can not change input source to US")
+         elseif name == "微信" and
+         not hs.keycodes.currentSourceID(rimeInput) then
+            hs.alert.show("Can not change input source to Rime")
          end
       end
-end):start()
+end)
+inputWatcher:start()
+
+--- bind super+0 => change input source -> activate alfred
+hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "0",
+   function()
+      if not hs.keycodes.currentSourceID(noInput) then
+         hs.alert.show("Can not change input source to us")
+      end
+      hs.eventtap.keyStroke({"cmd", "alt", "ctrl", "shift"}, "8")
+end)
+
+hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "9",
+   function()
+      if not hs.keycodes.currentSourceID(noInput) then
+         hs.alert.show("Can not change input source to us")
+      end
+      hs.eventtap.keyStroke({"cmd", "alt", "ctrl", "shift"}, "7")
+end)
