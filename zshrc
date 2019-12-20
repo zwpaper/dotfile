@@ -35,7 +35,7 @@ ZSH_TMUX_AUTOSTART="true"
 # User configuration
 export LC_ALL="en_US.UTF-8"
 export MANPATH="/usr/local/man:$MANPATH"
-export PATH=$HOME/.cabal/bin:$HOME/Library/Haskell/bin:$HOME/.local/bin:$GOROOT/bin:$GOPATH/bin:$PATH
+export PATH=$HOME/.yarn/bin:$HOME/.cabal/bin:$HOME/Library/Haskell/bin:$HOME/.local/bin:$GOROOT/bin:$GOPATH/bin:$PATH
 export PATH=$HOME/.bin:$PATH
 export PATH=$PATH:/usr/local/bin
 
@@ -59,19 +59,6 @@ ${git_info}\
 %{$fg[white]%}[%*] $exit_code
 %{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
 
-alias ls="lsd"
-alias la="ls -a"
-alias lla='ls -la'
-alias lt='ls --tree'
-alias cat="bat"
-eval "$(jump shell --bind=z)"
-
-alias rm='rm -i'
-alias grep="grep --color=auto"
-alias -s gz='tar -xzvf'
-alias -s tgz='tar -xzvf'
-alias -s zip='unzip'
-alias -s bz2='tar -xjvf'
 
 # Emacs
 alias e="emacsclient -t -a ''"
@@ -141,3 +128,21 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 iterm2_print_user_vars() {
   it2git
 }
+
+# shell
+alias ls="lsd"
+alias la="ls -a"
+alias lla='ls -la'
+alias lt='ls --tree'
+alias cat="bat"
+
+alias rm='rm -i'
+alias grep="grep --color=auto"
+alias -s gz='tar -xzvf'
+alias -s tgz='tar -xzvf'
+alias -s zip='unzip'
+alias -s bz2='tar -xjvf'
+
+if command -v pazi &>/dev/null; then
+  eval "$(pazi init zsh)"
+fi

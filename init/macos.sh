@@ -1,3 +1,14 @@
+os=`uname`
+case $os in
+    Darwin)
+        echo "starting init"
+        ;;
+    *)
+        echo support macOS only
+        exit 1
+        ;;
+esac
+
 # Manually
 echo "* touchpad touch as click"
 echo "* touchpad disable three key functions"
@@ -9,6 +20,13 @@ dotRepo="dotfile"
 dotPath=$repoPath/$dotRepo
 dotRepoGit="git@github.com:zwpaper/dotfile.git"
 dotRepoHTTPS="https://github.com/zwpaper/dotfile.git"
+
+emacsRepoHTTPS="https://github.com/zwpaper/paper-emacs.git"
+
+GOROOT_PARENT=$HOME/code/
+GOPATH=$HOME/code/golang
+GO_VERSION=1.13.5
+GO_URL="https://dl.google.com/go/go$GO_VERSION.darwin-amd64.tar.gz"
 
 ## Application list
 ## Mac App Store
@@ -50,47 +68,47 @@ gnu-sed
 ### end macOS software
 
 ### Start installing
-os=`uname`
-case $os in
-    Darwin)
-        echo "Installing apps in macOS"
-        # Mac tools
-        which brew
-        result=`echo $?`
-        if [ X$result == X1 ]; then
-            /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-            brew tap homebrew/cask-fonts
-        fi
+echo "Installing apps in macOS"
+# Mac tools
+which brew
+result=`echo $?`
+if [ X$result == X1 ]; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew tap homebrew/cask-fonts
+fi
 
-        export HOMEBREW_NO_AUTO_UPDATE=1
-        for i in $brewApps; do
-            echo ""
-            echo "Installing "$i
-            brew install $i
-        done
-        for i in $gnuApps; do
-            echo ""
-            echo "Installing "$i
-            brew install $i --with-default-names
-        done
-        for i in $caskApps; do
-            echo ""
-            echo "Installing "$i
-            brew cask install $i
-        done
-        # alfred 3
-        if [ ! -f /Applications/Alfred\ 3.app ]; then
-            curl -SLo /tmp/alfred3.dmg https://cachefly.alfredapp.com/Alfred_3.8.6_972.dmg
-            hdiutil mount /tmp/alfred3.dmg
-            sudo cp -R /Volumes/Alfred/Alfred\ 3.app /Applications
-            hdiutil unmount /Volumes/Alfred
-        fi
-        ;;
-    Linux)
-        echo "Use Linux.sh"
-        ;;
-esac
+export HOMEBREW_NO_AUTO_UPDATE=1
+for i in $brewApps; do
+    echo ""
+    echo "Installing "$i
+    brew install $i
+done
+for i in $gnuApps; do
+    echo ""
+    echo "Installing "$i
+    brew install $i --with-default-names
+done
+for i in $caskApps; do
+    echo ""
+    echo "Installing "$i
+    brew cask install $i
+done
+# alfred 3
+if [ ! -e /Applications/Alfred\ 3.app ]; then
+    curl -SLo /tmp/alfred3.dmg https://cachefly.alfredapp.com/Alfred_3.8.6_972.dmg
+    hdiutil mount /tmp/alfred3.dmg
+    sudo cp -R /Volumes/Alfred/Alfred\ 3.app /Applications
+    hdiutil unmount /Volumes/Alfred
+fi
 
+# Emacs 27
+if [ ! -e /Applications/Emacs.app ]; then
+    brew install --fetch-HEAD emacs-plus --HEAD --without-spacemacs-icon --with-modern-icon --with-jansson --with-xwidgets
+fi
+if [ ! -L $HOME/.emacs.d ]; then
+    git clone $emacsRepoHTTPS $repoPath
+    ln -s $repoPath/paper-emacs $HOME/.emacs.d
+fi
 ### End installing
 
 # dev software
@@ -120,6 +138,13 @@ if [ ! -f ~/.config/karabiner/karabiner.json ]; then
     mkdir -p ~/.config
     ln -s $dotPath/karabiner ~/.config/karabiner
     echo "karabiner done"
+fi
+
+# Golang
+if [ ! -d $GOROOT_PARENT ]; then
+    curl -SLo /tmp/ $GO_URL
+    mkdir -p $GOROOT_PARENT
+    tar -C $GOROOT_PARENT -xzf go$GO_VERSION.darwin-amd64.tar.gz
 fi
 
 # Sync
