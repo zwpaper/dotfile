@@ -64,22 +64,27 @@ case $os in
 
         export HOMEBREW_NO_AUTO_UPDATE=1
         for i in $brewApps; do
+            echo ""
             echo "Installing "$i
             brew install $i
         done
         for i in $gnuApps; do
+            echo ""
             echo "Installing "$i
             brew install $i --with-default-names
         done
         for i in $caskApps; do
+            echo ""
             echo "Installing "$i
             brew cask install $i
         done
         # alfred 3
-        curl -SLo /tmp/alfred3.dmg https://cachefly.alfredapp.com/Alfred_3.8.6_972.dmg
-        hdiutil mount /tmp/alfred3.dmg
-        sudo cp -R /Volumes/Alfred/Alfred\ 3.app /Applications
-        hdiutil unmount /Volumes/Alfred
+        if [ ! -f /Applications/Alfred\ 3.app ]; then
+            curl -SLo /tmp/alfred3.dmg https://cachefly.alfredapp.com/Alfred_3.8.6_972.dmg
+            hdiutil mount /tmp/alfred3.dmg
+            sudo cp -R /Volumes/Alfred/Alfred\ 3.app /Applications
+            hdiutil unmount /Volumes/Alfred
+        fi
         ;;
     Linux)
         echo "Use Linux.sh"
@@ -112,6 +117,7 @@ if [ ! -f ~/.config/karabiner/karabiner.json ]; then
     if [ -f ~/.config/karabiner ]; then
         mv ~/.config/karabiner ~/.config/karabiner.bak
     fi
+    mkdir -p ~/.config
     ln -s $dotPath/karabiner ~/.config/karabiner
     echo "karabiner done"
 fi
