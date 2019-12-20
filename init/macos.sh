@@ -98,7 +98,9 @@ fi
 ## oh my zsh
 if [ ! -d ~/.oh-my-zsh ]; then
     echo "setting zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    sh -c \
+       "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+       "" --unattended # do not delete the space
     rm -f ~/.zshrc
     ln -s $dotPath/zshrc ~/.zshrc
     echo "zsh done..."
@@ -107,7 +109,9 @@ fi
 # karabiner-elements
 if [ ! -f ~/.config/karabiner/karabiner.json ]; then
     echo "setting karabiner..."
-    mv ~/.config/karabiner ~/.config/karabiner.bak
+    if [ -f ~/.config/karabiner ]; then
+        mv ~/.config/karabiner ~/.config/karabiner.bak
+    fi
     ln -s $dotPath/karabiner ~/.config/karabiner
     echo "karabiner done"
 fi
