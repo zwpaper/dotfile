@@ -22,6 +22,7 @@ dotRepoGit="git@github.com:zwpaper/dotfile.git"
 dotRepoHTTPS="https://github.com/zwpaper/dotfile.git"
 
 emacsRepoHTTPS="https://github.com/zwpaper/paper-emacs.git"
+emacsPath=$repoPath/"paper-emacs"
 
 GOROOT_PARENT=$HOME/code/
 GOPATH=$HOME/code/golang
@@ -103,11 +104,12 @@ fi
 
 # Emacs 27
 if [ ! -e /Applications/Emacs.app ]; then
+    brew tap d12frosted/emacs-plus
     brew install --fetch-HEAD emacs-plus --HEAD --without-spacemacs-icon --with-modern-icon --with-jansson --with-xwidgets
 fi
 if [ ! -L $HOME/.emacs.d ]; then
     git clone $emacsRepoHTTPS $repoPath
-    ln -s $repoPath/paper-emacs $HOME/.emacs.d
+    ln -s $repoPath/paper-emacs $emacsPath
 fi
 ### End installing
 
