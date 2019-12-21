@@ -16,7 +16,7 @@
                 },
                 "rules": [
                     {
-                        "description": "Poker: change shift_esc to `.",
+                        "description": "Poker: nchange shift_esc to `.",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -70,12 +70,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "grave_accent_and_tilde",
-                                        "modifiers": {
-                                            "mandatory": [
-                                                "left_shift"
-                                            ]
-                                        }
+                                        "key_code": "grave_accent_and_tilde"
                                     }
                                 ],
                                 "type": "basic"
@@ -230,12 +225,7 @@
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "quote",
-                                        "modifiers": {
-                                            "optional": [
-                                                "any"
-                                            ]
-                                        }
+                                        "key_code": "quote"
                                     }
                                 ],
                                 "type": "basic"
@@ -597,7 +587,7 @@
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "simicolon",
+                                    "key_code": "semicolon",
                                     "modifiers": {
                                         "mandatory": [
                                             "right_command"
@@ -606,7 +596,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "simicolon"
+                                        "key_code": "semicolon"
                                     }
                                 ],
                                 "type": "basic"
@@ -655,11 +645,9 @@
                                 "to": [
                                     {
                                         "key_code": "equal_sign",
-                                        "modifiers": {
-                                            "mandatory": [
-                                                "left_shift"
-                                            ]
-                                        }
+                                        "modifiers": [
+                                            "left_shift"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -684,11 +672,9 @@
                                 "to": [
                                     {
                                         "key_code": "backslash",
-                                        "modifiers": {
-                                            "mandatory": [
-                                                "left_shift"
-                                            ]
-                                        }
+                                        "modifiers": [
+                                            "left_shift"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -1939,12 +1925,25 @@
             ],
             "name": "hhkb",
             "one_to_many_mappings": {},
+            "parameters": {
+                "delay_milliseconds_before_open_device": 1000
+            },
             "selected": true,
-            "simple_modifications": [],
+            "simple_modifications": [
+                {
+                    "from": {
+                        "key_code": "caps_lock"
+                    },
+                    "to": {
+                        "key_code": "left_control"
+                    }
+                }
+            ],
             "virtual_hid_keyboard": {
                 "caps_lock_delay_milliseconds": 0,
                 "country_code": 0,
                 "keyboard_type": "ansi",
+                "mouse_key_xy_scale": 100,
                 "standalone_keys_delay_milliseconds": 200
             }
         }
