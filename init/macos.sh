@@ -58,12 +58,18 @@ neteasemusic
 font-hack-nerd-font
 squirrel
 bettertouchtool
+postman
+java
 "
 ## Homebrew Apps
 brewApps="
 zsh
+mosh
 bat
 lsd
+rg
+telnet
+fswatch
 cmake
 gnu-sed
 gcc
@@ -109,6 +115,9 @@ function install_mac_apps() {
         git clone $emacsRepoHTTPS $repoPath
         ln -s $repoPath/paper-emacs $emacsPath
     fi
+
+    # local bin
+    mkdir -p $HOME/.bin
 }
 
 # dev software
@@ -163,12 +172,28 @@ function init_rust() {
 ## End language
 
 function init_rime() {
+    ## setup rime configuration files
+    if [ -d $HOME/Library/Rime ]; then
+        rm -rf $HOME/Library/Rime
+    fi
+    if [ ! -L $HOME/Library/Rime ]; then
+        ln -s $dotPath/Rime $HOME/Library/Rime
+    fi
+    syncFile=$HOME/Library/Rime/installation.yaml
+    if [ -f $syncFile ]; then
+        echo "installation_id: ''" >> $syncFile
+        echo "sync_dir: '$HOME/Dropbox/AppSync/Rime'" >> $syncFile
+        echo "please update the installation_id for Rime"
+    fi
+
+
+    ## build librime and liberime for emacs
     LIBRIME_PATH="$HOME/code/repo/librime"
     if [ ! -d $LIBRIME_PATH ]; then
-    echo "download librime..."
-    git clone --recursive https://github.com/rime/librime.git --depth=1 $LIBRIME_PATH
-    mkdir -p $LIBRIME_PATH/xbuild/lib/Release/
-    cp /Library/Input\ Methods/Squirrel.app/Contents/Frameworks/librime.1.dylib $LIBRIME_PATH/xbuild/lib/Release/librime.dylib
+        echo "download librime..."
+        git clone --recursive https://github.com/rime/librime.git --depth=1 $LIBRIME_PATH
+        mkdir -p $LIBRIME_PATH/xbuild/lib/Release/
+        cp /Library/Input\ Methods/Squirrel.app/Contents/Frameworks/librime.1.dylib $LIBRIME_PATH/xbuild/lib/Release/librime.dylib
     fi
     LIBERIME_PATH="$HOME/code/repo/liberime"
     if [ ! -d $LIBERIME_PATH ]; then
@@ -182,6 +207,7 @@ function init_rime() {
         cd -
     fi
     sudo cp /Library/Input\ Methods/Squirrel.app/Contents/Frameworks/librime.1.dylib /usr/local/lib/
+
 }
 
 
