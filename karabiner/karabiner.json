@@ -16,7 +16,198 @@
                 },
                 "rules": [
                     {
-                        "description": "Poker: nchange shift_esc to `.",
+                        "description": "semicolon as number LAYER",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "semicolon"
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "semicolon_modifier",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "semicolon_modifier",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "semicolon"
+                                    }
+                                ],
+                                "type": "basic"
+                            }, {
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "semicolon_modifier",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "a"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "1",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }, {
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "semicolon_modifier",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "s"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "2",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }, {
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "semicolon_modifier",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "d"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "3",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }, {
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "semicolon_modifier",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "f"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "4",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }, {
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "semicolon_modifier",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "g"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "5",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }, {
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "semicolon_modifier",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "h"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "6",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }, {
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "semicolon_modifier",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "j"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "7",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }, {
+                                "conditions": [
+                                    {
+                                        "type": "variable_if",
+                                        "name": "semicolon_modifier",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "k"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "8",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    }, {
+                        "description": "Poker: change shift esc to ` and ~",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -32,8 +223,8 @@
                                 "from": {
                                     "key_code": "escape",
                                     "modifiers": {
-                                        "mandatory": [
-                                            "left_shift"
+                                        "optional": [
+                                            "shift"
                                         ]
                                     }
                                 },
@@ -46,9 +237,40 @@
                             }
                         ]
                     },
+                  {
+                    "description": "Poker: change backslash to del",
+                    "manipulators": [
+                      {
+                        "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 3897
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "backslash",
+                                  "modifiers": {
+                                        "optional": [
+                                            "option"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "delete_or_backspace"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
                     {
-                        "description": "Poker: change shift_delete to HOME (TBD).",
-                        "manipulators": [
+                      "description": "Poker: change del to backslash",
+                      "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -62,22 +284,23 @@
                                 ],
                                 "from": {
                                     "key_code": "delete_or_backspace",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_shift"
+                                  "modifiers": {
+                                        "optional": [
+                                            "shift"
                                         ]
                                     }
                                 },
                                 "to": [
                                     {
-                                        "key_code": "grave_accent_and_tilde"
+                                        "key_code": "backslash"
                                     }
                                 ],
                                 "type": "basic"
                             }
                         ]
                     },
-                    {
+
+                  {
                         "description": "change control to control and esc.",
                         "manipulators": [
                             {
@@ -203,7 +426,7 @@
                         ]
                     },
                     {
-                        "description": "Change quote to mod2(control + option + shift).",
+                        "description": "Change quote to super (command + control + option + shift).",
                         "manipulators": [
                             {
                                 "from": {
@@ -218,6 +441,7 @@
                                     {
                                         "key_code": "left_shift",
                                         "modifiers": [
+                                            "left_command",
                                             "left_control",
                                             "left_option"
                                         ]
@@ -226,6 +450,60 @@
                                 "to_if_alone": [
                                     {
                                         "key_code": "quote"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change super + 1 to left space",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "1",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_shift",
+                                            "left_command",
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_arrow",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change super + 2 to right space",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "2",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_shift",
+                                            "left_command",
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_arrow",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -297,7 +575,7 @@
                         ]
                     },
                     {
-                        "description": "Change right option to chinese input.",
+                        "description": "Change right option to backslash",
                         "manipulators": [
                             {
                                 "from": {
@@ -318,12 +596,9 @@
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "z",
+                                        "key_code": "3",
                                         "modifiers": [
-                                            "right_shift",
-                                            "right_control",
-                                            "right_option",
-                                            "right_command"
+                                            "left_shift"
                                         ]
                                     }
                                 ],
@@ -332,7 +607,7 @@
                         ]
                     },
                     {
-                        "description": "Change right command to english input.",
+                        "description": "Change right command to pipe",
                         "manipulators": [
                             {
                                 "from": {
@@ -353,12 +628,9 @@
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "e",
+                                        "key_code": "backslash",
                                         "modifiers": [
-                                            "right_shift",
-                                            "right_control",
-                                            "right_option",
-                                            "right_command"
+                                            "left_shift"
                                         ]
                                     }
                                 ],
