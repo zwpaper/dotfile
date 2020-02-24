@@ -365,11 +365,11 @@
                             }
                         ]
                     },
-                  {
-                    "description": "Poker: change backslash to del",
-                    "manipulators": [
-                      {
-                        "conditions": [
+                    {
+                        "description": "Poker: change backslash to del",
+                        "manipulators": [
+                            {
+                                "conditions": [
                                     {
                                         "identifiers": [
                                             {
@@ -381,7 +381,7 @@
                                 ],
                                 "from": {
                                     "key_code": "backslash",
-                                  "modifiers": {
+                                    "modifiers": {
                                         "optional": [
                                             "option"
                                         ]
@@ -397,8 +397,8 @@
                         ]
                     },
                     {
-                      "description": "Poker: change del to backslash",
-                      "manipulators": [
+                        "description": "Poker: change del to backslash",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -412,7 +412,7 @@
                                 ],
                                 "from": {
                                     "key_code": "delete_or_backspace",
-                                  "modifiers": {
+                                    "modifiers": {
                                         "optional": [
                                             "shift"
                                         ]
@@ -427,8 +427,7 @@
                             }
                         ]
                     },
-
-                  {
+                    {
                         "description": "change control to control and esc.",
                         "manipulators": [
                             {
@@ -2220,6 +2219,36 @@
                             },
                             "to": {
                                 "key_code": "left_control"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 23,
+                        "vendor_id": 9494
+                    },
+                    "ignore": false,
+                    "manipulate_caps_lock_led": false,
+                    "simple_modifications": [
+                        {
+                            "from": {
+                                "key_code": "left_command"
+                            },
+                            "to": {
+                                "key_code": "left_option"
+                            }
+                        },
+                        {
+                            "from": {
+                                "key_code": "left_option"
+                            },
+                            "to": {
+                                "key_code": "left_command"
                             }
                         }
                     ]
