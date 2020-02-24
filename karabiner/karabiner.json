@@ -19,6 +19,13 @@
                         "description": "semicolon as number LAYER",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "name": "a_modifier",
+                                        "type": "variable_if",
+                                        "value": 0
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "semicolon"
                                 },
@@ -44,11 +51,46 @@
                                     }
                                 ],
                                 "type": "basic"
-                            }, {
+                            },
+                            {
                                 "conditions": [
                                     {
-                                        "type": "variable_if",
                                         "name": "semicolon_modifier",
+                                        "type": "variable_if",
+                                        "value": 0
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "a"
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "a_modifier",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "a_modifier",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "a"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "semicolon_modifier",
+                                        "type": "variable_if",
                                         "value": 1
                                     }
                                 ],
@@ -64,11 +106,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            }, {
+                            },
+                            {
                                 "conditions": [
                                     {
-                                        "type": "variable_if",
                                         "name": "semicolon_modifier",
+                                        "type": "variable_if",
                                         "value": 1
                                     }
                                 ],
@@ -84,11 +127,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            }, {
+                            },
+                            {
                                 "conditions": [
                                     {
-                                        "type": "variable_if",
                                         "name": "semicolon_modifier",
+                                        "type": "variable_if",
                                         "value": 1
                                     }
                                 ],
@@ -104,11 +148,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            }, {
+                            },
+                            {
                                 "conditions": [
                                     {
-                                        "type": "variable_if",
                                         "name": "semicolon_modifier",
+                                        "type": "variable_if",
                                         "value": 1
                                     }
                                 ],
@@ -124,16 +169,17 @@
                                     }
                                 ],
                                 "type": "basic"
-                            }, {
+                            },
+                            {
                                 "conditions": [
                                     {
+                                        "name": "a_modifier",
                                         "type": "variable_if",
-                                        "name": "semicolon_modifier",
                                         "value": 1
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "g"
+                                    "key_code": "j"
                                 },
                                 "to": [
                                     {
@@ -144,16 +190,17 @@
                                     }
                                 ],
                                 "type": "basic"
-                            }, {
+                            },
+                            {
                                 "conditions": [
                                     {
+                                        "name": "a_modifier",
                                         "type": "variable_if",
-                                        "name": "semicolon_modifier",
                                         "value": 1
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "h"
+                                    "key_code": "k"
                                 },
                                 "to": [
                                     {
@@ -164,16 +211,17 @@
                                     }
                                 ],
                                 "type": "basic"
-                            }, {
+                            },
+                            {
                                 "conditions": [
                                     {
+                                        "name": "a_modifier",
                                         "type": "variable_if",
-                                        "name": "semicolon_modifier",
                                         "value": 1
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "j"
+                                    "key_code": "l"
                                 },
                                 "to": [
                                     {
@@ -184,16 +232,17 @@
                                     }
                                 ],
                                 "type": "basic"
-                            }, {
+                            },
+                            {
                                 "conditions": [
                                     {
+                                        "name": "a_modifier",
                                         "type": "variable_if",
-                                        "name": "semicolon_modifier",
                                         "value": 1
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "k"
+                                    "key_code": "semicolon"
                                 },
                                 "to": [
                                     {
@@ -204,9 +253,88 @@
                                     }
                                 ],
                                 "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "semicolon_modifier",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "q"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "hyphen"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "semicolon_modifier",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "w"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "equal_sign"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "semicolon_modifier",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "e"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "hyphen",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "semicolon_modifier",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "r"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "equal_sign",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
                             }
                         ]
-                    }, {
+                    },
+                    {
                         "description": "Poker: change shift esc to ` and ~",
                         "manipulators": [
                             {
