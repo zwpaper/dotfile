@@ -16,12 +16,12 @@
                 },
                 "rules": [
                     {
-                        "description": "semicolon as number LAYER",
+                        "description": "char layer",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "name": "a_modifier",
+                                        "name": "tab_modifier",
                                         "type": "variable_if",
                                         "value": 0
                                     }
@@ -61,12 +61,12 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "a"
+                                    "key_code": "tab"
                                 },
                                 "to": [
                                     {
                                         "set_variable": {
-                                            "name": "a_modifier",
+                                            "name": "tab_modifier",
                                             "value": 1
                                         }
                                     }
@@ -74,14 +74,14 @@
                                 "to_after_key_up": [
                                     {
                                         "set_variable": {
-                                            "name": "a_modifier",
+                                            "name": "tab_modifier",
                                             "value": 0
                                         }
                                     }
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "a"
+                                        "key_code": "tab"
                                     }
                                 ],
                                 "type": "basic"
@@ -173,7 +173,7 @@
                             {
                                 "conditions": [
                                     {
-                                        "name": "a_modifier",
+                                        "name": "tab_modifier",
                                         "type": "variable_if",
                                         "value": 1
                                     }
@@ -194,7 +194,7 @@
                             {
                                 "conditions": [
                                     {
-                                        "name": "a_modifier",
+                                        "name": "tab_modifier",
                                         "type": "variable_if",
                                         "value": 1
                                     }
@@ -215,7 +215,7 @@
                             {
                                 "conditions": [
                                     {
-                                        "name": "a_modifier",
+                                        "name": "tab_modifier",
                                         "type": "variable_if",
                                         "value": 1
                                     }
@@ -236,7 +236,7 @@
                             {
                                 "conditions": [
                                     {
-                                        "name": "a_modifier",
+                                        "name": "tab_modifier",
                                         "type": "variable_if",
                                         "value": 1
                                     }
@@ -2373,7 +2373,7 @@
                 "country_code": 0,
                 "keyboard_type": "ansi",
                 "mouse_key_xy_scale": 100,
-                "standalone_keys_delay_milliseconds": 200
+                "standalone_keys_delay_milliseconds": 100
             }
         }
     ]
