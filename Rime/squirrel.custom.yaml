@@ -28,6 +28,19 @@ patch:
       reset: 1                # 增加這一行：默認啓用「繁→簡」轉換。
       states: [ 漢字, 汉字 ]
 
+  schema_list:
+    - schema: flypy # 添加小鹤音形
+    - schema: flypyplus # 添加小鹤音形+
+    - schema: luna_pinyin
+
+  key_binder/bindings:
+    - when: paging
+      accept: bracketleft
+      send: Page_Up
+    - when: has_menu
+      accept: bracketright
+      send: Page_Down
+
 preset_color_schemes:
 # 註：預設的配色方案及代碼（指定爲 style/color_scheme ）
 #   系統默認色系 - native
