@@ -1,13 +1,9 @@
-os=`uname`
-case $os in
-    Darwin)
-        echo "starting init"
-        ;;
-    *)
-        echo support macOS only
-        exit 1
-        ;;
-esac
+#!/usr/bin/env zsh
+
+source ./basic.sh
+source ./software.sh
+
+set -exuo pipefail
 
 # Manually
 echo "* touchpad touch as click"
@@ -60,34 +56,74 @@ squirrel
 bettertouchtool
 postman
 java
+fantastical
 "
 ## Homebrew Apps
 brewApps="
-zsh
-mosh
+rg
+mas
 bat
 lsd
-rg
-telnet
-fswatch
-cmake
-gnu-sed
 gcc
+zsh
+mosh
+cmake
 socat
-aspell"
+telnet
+pandoc
+aspell
+fswatch
+libtool
+gnu-sed"
+downloadedApps="
+notion https://desktop-release.notion-static.com/Notion-2.0.7.dmg
+"
 ### end macOS software
+
+function install_mas_apps() {
+    echo "Installing apps in mac App Store..."
+    if [[ `command mas 2>/dev/null` ]]; then
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+
+    for i in $1; do
+        echo ""
+        echo "Installing "$i
+        mas install $i
+    done
+    for i in $caskApps; do
+        echo ""
+        echo "Installing "$i
+        brew cask install $i
+    done
+    # alfred 3
+    if [ ! -e /Applications/Alfred\ 3.app ]; then
+        curl -SLo /tmp/alfred3.dmg https://cachefly.alfredapp.com/Alfred_3.8.6_972.dmg
+        hdiutil mount /tmp/alfred3.dmg
+        sudo cp -R /Volumes/Alfred/Alfred\ 3.app /Applications
+        hdiutil unmount /Volumes/Alfred
+    fi
+
+    # Emacs 27
+    #    if [ ! -e /Applications/Emacs.app ]; then
+    #        brew tap d12frosted/emacs-plus
+    #        brew install --fetch-HEAD emacs-plus --HEAD --without-spacemacs-icon --with-modern-icon --with-jansson
+    #    fi
+    if [ ! -L $HOME/.emacs.d ]; then
+        git clone $emacsRepoHTTPS $repoPath
+        ln -s $repoPath/paper-emacs $emacsPath
+    fi
+
+    # local bin
+    mkdir -p $HOME/.bin
+}
 
 function install_mac_apps() {
     echo "Installing apps in macOS"
     # Mac tools
-    which brew
-    result=`echo $?`
-    if [ X$result == X1 ]; then
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    fi
+    software::ensure_brew
     brew tap homebrew/cask-fonts
 
-    export HOMEBREW_NO_AUTO_UPDATE=1
     for i in $brewApps; do
         echo ""
         echo "Installing "$i
@@ -107,10 +143,10 @@ function install_mac_apps() {
     fi
 
     # Emacs 27
-    if [ ! -e /Applications/Emacs.app ]; then
-        brew tap d12frosted/emacs-plus
-        brew install --fetch-HEAD emacs-plus --HEAD --without-spacemacs-icon --with-modern-icon --with-jansson
-    fi
+    #    if [ ! -e /Applications/Emacs.app ]; then
+    #        brew tap d12frosted/emacs-plus
+    #        brew install --fetch-HEAD emacs-plus --HEAD --without-spacemacs-icon --with-modern-icon --with-jansson
+    #    fi
     if [ ! -L $HOME/.emacs.d ]; then
         git clone $emacsRepoHTTPS $repoPath
         ln -s $repoPath/paper-emacs $emacsPath
@@ -125,13 +161,24 @@ function install_mac_apps() {
 ## oh my zsh
 function init_oh_my_zsh() {
     if [ ! -d ~/.oh-my-zsh ]; then
-        echo "setting zsh..."
+        log "installing zsh..."
         sh -c \
            "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
            "" --unattended # do not delete the space
         rm -f ~/.zshrc
         ln -s $dotPath/zshrc ~/.zshrc
-        echo "zsh done..."
+        log "zsh done..."
+    fi
+
+    # zsh-autosuggestions
+    target=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    if ! exists_dir ${target}; then
+        git clone https://github.com/zsh-users/zsh-autosuggestions $target
+    fi
+    # zsh-syntax-highlighting
+    target=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    if ! exists_dir ${target}; then
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $target
     fi
 }
 
@@ -214,13 +261,19 @@ function init_rime() {
 # Sync
 ## Spelling
 function sync_spelling() {
-    if [ ! -h ~/Library/Spelling ]; then
-        echo "sync spelling..."
-        sudo mv ~/Library/Spelling/ ~/Library/Spelling.bak
-        ln -s ~/Dropbox/AppSync/Spelling ~/Library/Spelling
+    software::ensure aspell
+    config_dir=`aspell --lang=en dump config | grep etc | awk '{print $5}'`
+    mkdir -p $config_dir
+    if [ ! -f ${config_dir}/aspell.conf ]; then
+        ln -s ${dotPath}/aspell.conf ${config_dir}/aspell.conf
         echo "spelling done"
     fi
 }
 
-init_golang
-init_rust
+# init_golang
+# init_rust
+# install_mac_apps
+# init_oh_my_zsh
+# init_karabiner
+# init_rime
+# sync_spelling
