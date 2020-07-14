@@ -1,0 +1,26 @@
+patch:
+  # ` 直接上屏
+  recognizer/patterns/reverse_lookup: {}
+  reverse_lookup: {}
+
+  # 输入双拼码的时候不转化为全拼码
+  translator/preedit_format: {}
+
+  # disable English input
+  engine/processors:
+    # - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  app_options: []
+
+  punctuator:
+    import_preset: default
+    full_shape:
+      "/" : "/"
+      "*" : "*"
+      "`" : "`"
