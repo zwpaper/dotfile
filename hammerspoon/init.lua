@@ -39,7 +39,7 @@ inputWatcher = hs.application.watcher.new(
          if (name == "Emacs" or name == "iTerm2") and
          not hs.keycodes.currentSourceID(noInput) then
             hs.alert.show("Can not change input source to US")
-         elseif name == "WeChat" and
+         elseif (name == "WeChat" or name == "WeChat Work") and
          not hs.keycodes.currentSourceID(rimeInput) then
             hs.alert.show("Can not change input source to Rime")
          end
