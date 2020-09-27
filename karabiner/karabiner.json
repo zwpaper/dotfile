@@ -350,11 +350,9 @@
                                 ],
                                 "from": {
                                     "key_code": "escape",
-                                    "modifiers": {
-                                        "optional": [
-                                            "shift"
-                                        ]
-                                    }
+                                    "modifiers": [
+                                        "shift"
+                                    ]
                                 },
                                 "to": [
                                     {
@@ -420,7 +418,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "backslash"
+                                        "key_code": "grave_accent_and_tilde"
                                     }
                                 ],
                                 "type": "basic"
@@ -738,27 +736,35 @@
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "right_command",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
+                                    "key_code": "right_command"
                                 },
                                 "to": [
-                                    {
-                                        "key_code": "right_command",
-                                        "modifiers": [
-                                            "any"
-                                        ]
-                                    }
-                                ],
-                                "to_if_alone": [
                                     {
                                         "key_code": "backslash",
                                         "modifiers": [
                                             "left_shift"
                                         ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change shift right command to backslash",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": {
+                                        "mandatory" : [
+                                            "left_shift"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "backslash"
                                     }
                                 ],
                                 "type": "basic"
@@ -2162,6 +2168,14 @@
                             },
                             "to": {
                                 "key_code": "left_command"
+                            }
+                        },
+                        {
+                            "from": {
+                                "key_code": "right_option"
+                            },
+                            "to": {
+                                "key_code": "right_command"
                             }
                         }
                     ]
