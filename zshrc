@@ -66,6 +66,26 @@ ${git_info}\
 alias e="emacsclient -t -a ''"
 export EDITOR="emacsclient -t -a ''"
 
+## vterm
+vterm_printf(){
+    if [ -n "$TMUX" ]; then
+        # Tell tmux to pass the escape sequences through
+        # (Source: http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324)
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+vterm_prompt_end() {
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
+}
+setopt PROMPT_SUBST
+PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+
+
 # Git
 alias gcl='git clone'
 alias gsh="ssh-agent bash -c 'ssh-add ~/.ssh/paper; git push '"
@@ -103,13 +123,16 @@ export CPPFLAGS="-I/usr/local/opt/ncurses/include"
 ## Flutter
 export PUB_HOSTED_URL=https://pub.flutter-io.cn
 export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-export PATH="$HOME/repo/flutter/bin:$PATH"
+export PATH="$HOME/code/repo/flutter/bin:$PATH"
+export PATH="$HOME/code/repo/flutter/.pub-cache/bin:$PATH"
 
 ## Golang
 export GO111MODULE=on
 export GOPROXY=http://goproxy.cn
 
 ## Python
+export PATH=$HOME/Library/Python/3.7/bin:$PATH
+alias pip='pip3 --user'
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/sensetime/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -124,6 +147,13 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+## Latex
+export PATH=/Library/TeX/texbin/:$PATH
+export TEXINPUTS=::~/OneDrive/app-sync/tex/texmf/
+
+## LLVM
+export PATH="/usr/local/opt/llvm/bin:$PATH"
 
 # iTerm2
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -145,6 +175,8 @@ alias -s tgz='tar -xzvf'
 alias -s zip='unzip'
 alias -s bz2='tar -xjvf'
 
-if command -v pazi &>/dev/null; then
-  eval "$(pazi init zsh)"
-fi
+eval "$(zoxide init zsh)"
+
+eval "$(starship init zsh)"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
