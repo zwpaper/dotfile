@@ -757,7 +757,7 @@
                                 "from": {
                                     "key_code": "right_command",
                                     "modifiers": {
-                                        "mandatory" : [
+                                        "mandatory": [
                                             "left_shift"
                                         ]
                                     }
