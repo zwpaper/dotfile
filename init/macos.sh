@@ -35,29 +35,27 @@ xnip
 "
 ## Homebrew Cask
 caskApps="
-alfred
-omnifocus
-karabiner-elements
-hammerspoon
-istat-menus
+java
+slack
+iterm2
+docker
+wechat
 quitter
 dropbox
-google-chrome
-1password
-iterm2
-visual-studio-code
 postman
-docker
-slack
-wechat
-neteasemusic
-font-hack-nerd-font
+basictex
 squirrel
-bettertouchtool
-postman
-java
+1password
+omnifocus
+hammerspoon
+istat-menus
 fantastical
-"
+neteasemusic
+google-chrome
+bettertouchtool
+karabiner-elements
+visual-studio-code
+font-hack-nerd-font"
 ## Homebrew Apps
 brewApps="
 rg
@@ -72,9 +70,11 @@ socat
 telnet
 pandoc
 aspell
+httpie
 fswatch
 libtool
-gnu-sed"
+gnu-sed
+gnu-tar"
 downloadedApps="
 notion https://desktop-release.notion-static.com/Notion-2.0.7.dmg
 "
@@ -104,11 +104,6 @@ function install_mas_apps() {
         hdiutil unmount /Volumes/Alfred
     fi
 
-    # Emacs 27
-    #    if [ ! -e /Applications/Emacs.app ]; then
-    #        brew tap d12frosted/emacs-plus
-    #        brew install --fetch-HEAD emacs-plus --HEAD --without-spacemacs-icon --with-modern-icon --with-jansson
-    #    fi
     if [ ! -L $HOME/.emacs.d ]; then
         git clone $emacsRepoHTTPS $repoPath
         ln -s $repoPath/paper-emacs $emacsPath
