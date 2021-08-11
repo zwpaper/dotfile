@@ -285,7 +285,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "equal_sign"
+                                        "key_code": "equal_sign",
+                                        "modifiers": [
+                                            "shift"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -324,10 +327,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "equal_sign",
-                                        "modifiers": [
-                                            "shift"
-                                        ]
+                                        "key_code": "equal_sign"
                                     }
                                 ],
                                 "type": "basic"
@@ -739,6 +739,14 @@
                                     "key_code": "right_command"
                                 },
                                 "to": [
+                                    {
+                                        "key_code": "right_command",
+                                        "modifiers": [
+                                            "any"
+                                        ]
+                                    }
+                                ],
+                                "to_if_alone": [
                                     {
                                         "key_code": "backslash",
                                         "modifiers": [
