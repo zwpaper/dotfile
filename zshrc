@@ -118,9 +118,19 @@ if [ -f ~/.zsh.work ]; then
 fi
 
 # env
-HTTP_PROXY=http://127.0.0.1:7890
-HTTPS_PROXY=http://127.0.0.1:7890
-NO_PROXY=127.0.0.1,localhost,192.168.0.0/16,10.0.0.0/8
+function proxy {
+    export HTTP_PROXY=http://127.0.0.1:7890 \
+           HTTPS_PROXY=$HTTP_PROXY \
+           ALL_PROXY=$HTTP_PROXY \
+           http_proxy=$HTTP_PROXY \
+           https_proxy=$HTTP_PROXY \
+           all_proxy=$HTTP_PROXY \
+           NO_PROXY=127.0.0.1,localhost,192.168.0.0/16,10.0.0.0/8
+}
+function dir {
+    unset HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy
+}
+proxy
 
 # Lang
 export LDFLAGS="-L/usr/local/opt/ncurses/lib"
