@@ -1,0 +1,3 @@
+[submodule "kubectl"]
+	path = zsh/kubectl
+	url = git@github.com:superbrothers/zsh-kubectl-prompt.git

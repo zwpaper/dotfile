@@ -5,6 +5,8 @@ case `uname` in
         # gettest form emacs
         export PATH="/usr/local/opt/gettext/bin:$PATH"
         export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/ncurses/bin:/usr/local/opt/texinfo/bin:$PATH"
+        # Fix ssl problem for brew can not link ssl
+        export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
         export GOROOT="$HOME/code/go/"
         export GOPATH=$HOME"/code/golang"
         ;;
@@ -28,11 +30,30 @@ case `uname` in
 esac
 
 export ZSH=$HOME/.oh-my-zsh
+autoload -Uz compinit
+compinit
 
 ZSH_THEME="dst"
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git gitfast zsh-autosuggestions zsh-syntax-highlighting)
 ENABLE_CORRECTION="true"
-ZSH_TMUX_AUTOSTART="true"
+# ZSH_TMUX_AUTOSTART="true"
+
+source $ZSH/oh-my-zsh.sh
+source $HOME/code/repo/dotfile/zsh/kubectl/zsh-kubectl-prompt.plugin.zsh
+export PROMPT='
+%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
+%(#,%{$fg[magenta]%}%n%{$reset_color%},%{$fg[cyan]%}%n) \
+%{$fg[white]%}@ \
+%{$fg[green]%}Sglz \
+%{$fg[white]%}> \
+%{$fg[blue]%}${HTTP_PROXY: -5} \
+%{$fg[white]%}in \
+%{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%} \
+%{$fg[blue]%}⎈ $ZSH_KUBECTL_CONTEXT%{$reset_color%}\
+$(git_prompt_info)\
+ \
+$exit_code
+%{$terminfo[bold]$fg[red]%}$ %{$reset_color%}'
 
 # User configuration
 export LC_ALL="en_US.UTF-8"
@@ -46,21 +67,6 @@ export CLICOLOR=1
 # Set colors to match iTerm2 Terminal Colors
 export TERM=xterm-256color
 export LSCOLORS=Gxfxcxdxbxegedabagacad
-
-source $ZSH/oh-my-zsh.sh
-export PROMPT="
-%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
-%(#,%{$fg[magenta]%}%n%{$reset_color%},%{$fg[cyan]%}%n) \
-%{$fg[white]%}@ \
-%{$fg[green]%}%m \
-%{$fg[white]%}in \
-%{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}\
-${hg_info}\
-${git_info}\
- \
-%{$fg[white]%}[%*] $exit_code
-%{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
-
 
 # Emacs
 alias e="emacsclient -t -a ''"
@@ -128,10 +134,10 @@ export PATH="$HOME/code/repo/flutter/.pub-cache/bin:$PATH"
 
 ## Golang
 export GO111MODULE=on
-export GOPROXY=http://goproxy.cn
+export GOPROXY=http://goproxy.cn,direct
 
 ## Python
-export PATH=$HOME/Library/Python/3.7/bin:$PATH
+export PATH=$HOME/Library/Python/3.9/bin:$PATH
 alias pip='pip3 --user'
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -177,6 +183,61 @@ alias -s bz2='tar -xjvf'
 
 eval "$(zoxide init zsh)"
 
-eval "$(starship init zsh)"
 export PATH="/usr/local/sbin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/smlnj/bin/:$PATH"
+
+## Kubernetes
+alias k='kubectl' \
+ka="kubectl apply -f " \
+kl="kubectl logs " \
+ks='kubectl -n kube-system' \
+ksl='kubectl -n kube-system logs ' \
+ksd="kubectl -n kube-system describe " \
+kz='kubectl -n zhangwei' \
+wt='watch -d ' \
+
+function kls () {
+    local ns="default"
+    if [[ "$2" != "" ]] ; then
+        ns=$2
+    fi
+    local output=""
+    case $3 in
+        "y")
+            output=yaml
+            ;;
+        "w")
+            output=wide
+            ;;
+    esac
+    kubectl get -o "${output}" -n "$ns" "$1"
+}
+
+function kg () {
+    local ns="default"
+    if [[ "$3" != "" ]] ; then
+        ns=$3
+    fi
+    local output=""
+    case $4 in
+        "y")
+            output=yaml
+            ;;
+        "w")
+            output=wide
+            ;;
+    esac
+    kubectl get -o "${output}" -n "$ns" "$1" $2 | less;
+}
+
+function kd () {
+    local ns="default"
+    if [[ "$3" != "" ]] ; then
+        ns=$3
+    fi
+    kubectl describe "$1" "$2" -n "$ns" | less;
+}
+
+source <(kubectl completion zsh)
+complete -F __start_kubectl k
+if [ -e /Users/zhangwei/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/zhangwei/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
