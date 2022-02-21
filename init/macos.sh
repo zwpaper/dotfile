@@ -35,17 +35,14 @@ xnip
 "
 ## Homebrew Cask
 caskApps="
-java
 slack
 iterm2
 docker
 wechat
 quitter
 dropbox
-postman
 basictex
 squirrel
-1password
 omnifocus
 hammerspoon
 istat-menus
@@ -54,7 +51,6 @@ neteasemusic
 google-chrome
 bettertouchtool
 karabiner-elements
-visual-studio-code
 font-hack-nerd-font"
 ## Homebrew Apps
 brewApps="
@@ -63,20 +59,16 @@ mas
 bat
 lsd
 gcc
-zsh
 mosh
 cmake
 socat
 telnet
 pandoc
 aspell
-httpie
-fswatch
 libtool
 gnu-sed
 gnu-tar"
 downloadedApps="
-notion https://desktop-release.notion-static.com/Notion-2.0.7.dmg
 "
 ### end macOS software
 
