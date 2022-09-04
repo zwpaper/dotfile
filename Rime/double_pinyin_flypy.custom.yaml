@@ -17,10 +17,9 @@ patch:
     - navigator
     - express_editor
   app_options: []
-
-  punctuator:
-    import_preset: default
-    full_shape:
-      "/" : "/"
-      "*" : "*"
-      "`" : "`"
+  punctuator/half_shape:
+    "\\": "、"
+    "\"": "\""
+    "'": "'"
+    "*": "*"
+    "#": "#"

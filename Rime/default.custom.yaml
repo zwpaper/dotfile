@@ -2,7 +2,6 @@ patch:
   schema_list:
     - schema: luna_pinyin
     - schema: double_pinyin_flypy
-
   key_binder/bindings:
     - when: paging
       accept: bracketleft
@@ -10,5 +9,10 @@ patch:
     - when: has_menu
       accept: bracketright
       send: Page_Down
-
   menu/page_size: 5
+  switches:                   # 注意縮進
+    - name: full_shape
+      states: [ 半角, 全角 ]  # 而全／半角則可沿用之前方案中的用法。
+    - name: simplification
+      reset: 1                # 增加這一行：默認啓用「繁→簡」轉換。
+      states: [ 漢字, 汉字 ]
