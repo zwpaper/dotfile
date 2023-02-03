@@ -17,7 +17,7 @@ hs.alert.defaultStyle['atScreenEdge'] = 2
 --- hs.keycodes.currentSourceID()
 -- right option to Chinese
 noInput = "com.apple.keylayout.ABC"
-rimeInput = "im.rime.inputmethod.Squirrel.Rime"
+rimeInput = "im.rime.inputmethod.Squirrel.Hans"
 hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "z",
    function()
       if not hs.keycodes.currentSourceID(rimeInput) then
@@ -36,6 +36,7 @@ end)
 --- changing input source depends on apps
 inputWatcher = hs.application.watcher.new(
    function(name, e, app)
+      --- hs.alert.show(hs.keycodes.currentSourceID())
       if e == hs.application.watcher.activated then
          if (name == "Emacs" or name == "iTerm2") and
          not hs.keycodes.currentSourceID(noInput) then
